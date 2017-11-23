@@ -16,13 +16,13 @@ public class BoardServiceImpl implements BoardService {
 	private BoardRepository boardRepository;
 	
 	@Override
-	public Page<Board> findByMenuid(Integer BOARD_MENUID, Pageable pageable) {
+	public Page<Board> findByMenuidAndDepth(Integer BOARD_MENUID, Pageable pageable) {
 		
-		return boardRepository.findByMenuid(BOARD_MENUID, pageable);
+		return boardRepository.findByMenuidAndDepth(BOARD_MENUID, 1, pageable);
 	}
 
 	@Override
-	public Board findOne(Integer brdid) {
+	public Board findOne(Long brdid) {
 
 		return boardRepository.findOne(brdid);
 	}

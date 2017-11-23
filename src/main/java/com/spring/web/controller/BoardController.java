@@ -36,7 +36,7 @@ public class BoardController {
 	 */
 	@GetMapping("/board")
 	public ResponseEntity<Page<Board>> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
-		Page<Board> page = boardService.findByMenuid(BOARD_MENUID, pageable);
+		Page<Board> page = boardService.findByMenuidAndDepth(BOARD_MENUID, pageable);
 		
 		return new ResponseEntity<Page<Board>>(page, HttpStatus.OK);
 	}
@@ -47,7 +47,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/board/{brdid}")
-	public ResponseEntity<Board> getBoard(@PathVariable Integer brdid) {
+	public ResponseEntity<Board> getBoard(@PathVariable Long brdid) {
 		Board board = boardService.findOne(brdid);
 		
 		return new ResponseEntity<Board>(board, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class BoardController {
 	 */
 	@GetMapping("/album")
 	public ResponseEntity<Page<Board>> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
-		Page<Board> page = boardService.findByMenuid(ALBUM_MENUID, pageable);
+		Page<Board> page = boardService.findByMenuidAndDepth(ALBUM_MENUID, pageable);
 		
 		return new ResponseEntity<Page<Board>>(page, HttpStatus.OK);
 	}
@@ -71,7 +71,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/album/{brdid}")
-	public ResponseEntity<Board> getAlbum(@PathVariable Integer brdid) {
+	public ResponseEntity<Board> getAlbum(@PathVariable Long brdid) {
 		Board album = boardService.findOne(brdid);
 		
 		return new ResponseEntity<Board>(album, HttpStatus.OK);

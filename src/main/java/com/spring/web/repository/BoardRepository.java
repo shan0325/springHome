@@ -10,8 +10,8 @@ import com.spring.web.domain.Board;
 
 @Repository("boardRepository")
 @Transactional
-public interface BoardRepository extends JpaRepository<Board, Integer> {
+public interface BoardRepository extends JpaRepository<Board, Long> {
 
-	Page<Board> findByMenuid(Integer menuid, Pageable pageble);
+	Page<Board> findByMenuidAndDepth(Integer menuid, Integer depth, Pageable pageble);
 
 }

@@ -1,12 +1,17 @@
 package com.spring.web.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -15,17 +20,13 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="com_bbs")
-@SequenceGenerator(name="SEQ_BRDID_GENERATOR",
-			sequenceName="SEQ_BRDID",
-			initialValue=1,
-			allocationSize=1)
 public class Board {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,
-				generator="")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_BRDID_GENERATOR")
+	@SequenceGenerator(name="SEQ_BRDID_GENERATOR", sequenceName="SEQ_BRDID", initialValue=1, allocationSize=1)
 	@Column(length=10)
-	private Integer brdid;
+	private Long brdid;
 	
 	@Column(length=10, nullable=false)
 	private Integer menuid;
@@ -126,5 +127,8 @@ public class Board {
 	@Column(length=1)
 	private String topdisyn;
 	
+	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="brdid")
+	private List<File> files;
 
 }
