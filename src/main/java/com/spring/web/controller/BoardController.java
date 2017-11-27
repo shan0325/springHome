@@ -1,10 +1,16 @@
 package com.spring.web.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.web.domain.Board;
+import com.spring.web.dto.BoardDto;
 import com.spring.web.service.BoardService;
 
 @RestController
@@ -24,6 +31,9 @@ public class BoardController {
 	
 	@Resource(name="boardService")
 	private BoardService boardService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	private final Integer BOARD_MENUID = 529;
 	private final Integer ALBUM_MENUID = 547;
@@ -35,10 +45,14 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/board")
-	public ResponseEntity<Page<Board>> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
+	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
 		Page<Board> page = boardService.findByMenuidAndDepth(BOARD_MENUID, pageable);
+		List<BoardDto.Board> collect = page.getContent()
+										.stream()
+										.map(i -> modelMapper.map(i, BoardDto.Board.class))
+										.collect(Collectors.toList());
 		
-		return new ResponseEntity<Page<Board>>(page, HttpStatus.OK);
+		return new PageImpl<>(collect, pageable, page.getTotalElements());
 	}
 	
 	/**
@@ -59,10 +73,14 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/album")
-	public ResponseEntity<Page<Board>> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
+	public Page<BoardDto.Board> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
 		Page<Board> page = boardService.findByMenuidAndDepth(ALBUM_MENUID, pageable);
+		List<BoardDto.Board> collect = page.getContent()
+										.stream()
+										.map(i -> modelMapper.map(i, BoardDto.Board.class))
+										.collect(Collectors.toList());
 		
-		return new ResponseEntity<Page<Board>>(page, HttpStatus.OK);
+		return new PageImpl<>(collect, pageable, page.getTotalElements());
 	}
 	
 	/**

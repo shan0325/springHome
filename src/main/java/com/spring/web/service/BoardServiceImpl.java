@@ -1,6 +1,7 @@
 package com.spring.web.service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,10 +11,12 @@ import com.spring.web.domain.Board;
 import com.spring.web.repository.BoardRepository;
 
 @Service("boardService")
+@Transactional
 public class BoardServiceImpl implements BoardService {
 	
 	@Resource(name="boardRepository")
 	private BoardRepository boardRepository;
+	
 	
 	@Override
 	public Page<Board> findByMenuidAndDepth(Integer BOARD_MENUID, Pageable pageable) {
