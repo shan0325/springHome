@@ -20,5 +20,6 @@ public class BoardDto {
 		private String contents;
 		private Date regdt;
 		private List<File> files;
+		
 	}
 }
