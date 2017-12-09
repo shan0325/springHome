@@ -61,10 +61,10 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/board/{brdid}")
-	public ResponseEntity<Board> getBoard(@PathVariable Long brdid) {
+	public ResponseEntity<BoardDto.BoardDetail> getBoard(@PathVariable Long brdid) {
 		Board board = boardService.findOne(brdid);
 		
-		return new ResponseEntity<Board>(board, HttpStatus.OK);
+		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(board, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	
 	/**
@@ -89,10 +89,10 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/album/{brdid}")
-	public ResponseEntity<Board> getAlbum(@PathVariable Long brdid) {
+	public ResponseEntity<BoardDto.BoardDetail> getAlbum(@PathVariable Long brdid) {
 		Board album = boardService.findOne(brdid);
 		
-		return new ResponseEntity<Board>(album, HttpStatus.OK);
+		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(album, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	
 

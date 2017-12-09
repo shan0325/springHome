@@ -24,8 +24,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 		QBoard board = QBoard.board;
 		
 		QueryResults<Board> result = queryFactory.selectFrom(board)
-															.where(board.menuid.eq(menuid), board.depth.eq(depth))
-															.fetchResults();
+												.where(board.menuid.eq(menuid), board.depth.eq(depth))
+												.fetchResults();
 		
 		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
 	}
