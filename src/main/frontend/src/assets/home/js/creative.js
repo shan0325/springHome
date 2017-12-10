@@ -26,6 +26,12 @@ $(function() {
     offset: 57
   });
 
+  $('body').scrollspy({
+    target: '#subNav',
+    offset: 57
+  });
+  
+
   // Collapse Navbar
   var navbarCollapse = function() {
     if ($("#mainNav").offset().top > 100) {
@@ -33,7 +39,14 @@ $(function() {
     } else {
       $("#mainNav").removeClass("navbar-shrink");
     }
+
+    if ($("#subNav").offset().top > 100) {
+      $("#subNav").addClass("navbar-shrink");
+    } else {
+      $("#subNav").removeClass("navbar-shrink");
+    }
   };
+
   // Collapse now if page is not at top
   navbarCollapse();
   // Collapse the navbar when page is scrolled

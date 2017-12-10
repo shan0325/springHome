@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,9 +48,14 @@ public class BoardController {
 	@GetMapping("/board")
 	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
 		Page<Board> page = boardService.findByMenuidAndDepth(BOARD_MENUID, pageable);
+		
+		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
 										.stream()
-										.map(i -> modelMapper.map(i, BoardDto.Board.class))
+										.map(i -> {
+											i.setContents(StringEscapeUtils.unescapeHtml4(i.getContents()));
+											return modelMapper.map(i, BoardDto.Board.class);
+										})
 										.collect(Collectors.toList());
 		
 		return new PageImpl<>(collect, pageable, page.getTotalElements());
@@ -64,6 +70,7 @@ public class BoardController {
 	public ResponseEntity<BoardDto.BoardDetail> getBoard(@PathVariable Long brdid) {
 		Board board = boardService.findOne(brdid);
 		
+		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(board, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	
@@ -75,6 +82,8 @@ public class BoardController {
 	@GetMapping("/album")
 	public Page<BoardDto.Board> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
 		Page<Board> page = boardService.findByMenuidAndDepth(ALBUM_MENUID, pageable);
+		
+		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
 										.stream()
 										.map(i -> modelMapper.map(i, BoardDto.Board.class))
@@ -92,6 +101,7 @@ public class BoardController {
 	public ResponseEntity<BoardDto.BoardDetail> getAlbum(@PathVariable Long brdid) {
 		Board album = boardService.findOne(brdid);
 		
+		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(album, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	

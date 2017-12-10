@@ -2,6 +2,7 @@ package com.spring.web.service;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ public class BoardServiceImpl implements BoardService {
 	public Page<Board> findByMenuidAndDepth(Integer BOARD_MENUID, Pageable pageable) {
 		
 		//return boardRepository.findByMenuidAndDepth(BOARD_MENUID, 1, pageable);
+		
 		return boardRepository.getBoardList(BOARD_MENUID, 1, pageable);
 	}
 
@@ -29,7 +31,12 @@ public class BoardServiceImpl implements BoardService {
 	public Board findOne(Long brdid) {
 
 		//return boardRepository.findOne(brdid);
-		return boardRepository.getBoardByQuerydsl(brdid);
+		Board boardDetail = boardRepository.getBoardByQuerydsl(brdid);
+		
+		//내용 unescape Html 처리
+		boardDetail.setContents(StringEscapeUtils.unescapeHtml4(boardDetail.getContents()));
+		
+		return boardDetail;
 	}
 
 }
