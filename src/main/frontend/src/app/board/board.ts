@@ -9,7 +9,7 @@ export class Board {
     title: string;
     contents: string;
     regnm: string;
-    regdt: number;
+    regdt: string;
     topdisyn: string;
     files: File[];
 }

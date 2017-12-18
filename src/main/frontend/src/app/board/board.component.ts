@@ -11,8 +11,6 @@ export class BoardComponent implements OnInit {
 
   board: Board[];
 
-  testStr: string;;
-
   constructor(
     private boardService: BoardService
   ) { }
@@ -21,8 +19,6 @@ export class BoardComponent implements OnInit {
     document.getElementById("mainNav").style.display = "none";
     document.getElementById("subNav").style.display = "block";
     window.scrollTo(0,0);
-
-    this.testStr = "<p>안녕하세요.</p>";
 
     this.getBoard();
   }

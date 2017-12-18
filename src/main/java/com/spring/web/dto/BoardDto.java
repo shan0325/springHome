@@ -3,6 +3,9 @@ package com.spring.web.dto;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import com.spring.web.domain.File;
 
 import lombok.Data;

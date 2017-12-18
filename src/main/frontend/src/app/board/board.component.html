@@ -18,8 +18,11 @@
       
       <div *ngFor="let brd of board" class="post-preview">
         <span [innerHtml]="brd.contents"></span>
-        <p class="post-meta">Posted by {{brd.regnm}} on September 24, 2017</p>
-        <hr>
+        <div class="regnm">
+          <span>{{brd.regnm}}</span>
+          <span>{{ brd.regdt | date :'yyyy-MM-dd' }}</span>
+        </div>
+        <hr class="hr_line">
       </div>
 
       <!-- Pager -->

@@ -332,4 +332,16 @@
     height: 0;
     overflow: visible;
     max-width: 100%;
-  }  
+  }
+
+  .regnm {
+    color: #666;
+  }
+
+  .regnm span:first-child {
+    font-size: 14px;
+    color: #666;
+    padding-right: 14px;
+    margin-right: 11px;
+    background: url(/assets/home/img/sub/line.jpg) right center no-repeat;
+  }
