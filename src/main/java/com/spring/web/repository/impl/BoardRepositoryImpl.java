@@ -12,6 +12,7 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.spring.web.domain.Board;
 import com.spring.web.domain.QBoard;
+import com.spring.web.domain.QFile;
 import com.spring.web.repository.BoardRepositoryCustom;
 
 @Repository
@@ -26,6 +27,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 	public Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable) {
 		
 		QBoard board = QBoard.board;
+		QFile file = QFile.file;
 		
 		QueryResults<Board> result = queryFactory.selectFrom(board)
 												.where(board.menuid.eq(menuid), board.depth.eq(depth))
