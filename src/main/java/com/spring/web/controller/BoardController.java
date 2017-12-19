@@ -46,7 +46,7 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/board")
-	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=2) Pageable pageable) {
+	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
 		Page<Board> page = boardService.findByMenuidAndDepth(BOARD_MENUID, pageable);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
@@ -86,7 +86,10 @@ public class BoardController {
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
 										.stream()
-										.map(i -> modelMapper.map(i, BoardDto.Board.class))
+										.map(i -> {
+											i.setContents(StringEscapeUtils.unescapeHtml4(i.getContents()));
+											return modelMapper.map(i, BoardDto.Board.class);
+										})
 										.collect(Collectors.toList());
 		
 		return new PageImpl<>(collect, pageable, page.getTotalElements());

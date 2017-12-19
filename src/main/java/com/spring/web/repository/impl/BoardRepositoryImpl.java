@@ -1,5 +1,7 @@
 package com.spring.web.repository.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,6 +16,8 @@ import com.spring.web.repository.BoardRepositoryCustom;
 
 @Repository
 public class BoardRepositoryImpl implements BoardRepositoryCustom {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -25,6 +29,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 		
 		QueryResults<Board> result = queryFactory.selectFrom(board)
 												.where(board.menuid.eq(menuid), board.depth.eq(depth))
+												.orderBy(board.regdt.desc())
+												.limit(pageable.getPageSize())
+												.offset(pageable.getOffset())
 												.fetchResults();
 		
 		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
