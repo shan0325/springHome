@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -24,7 +25,8 @@ import { BoardService } from './board/board.service';
     BrowserModule,
     AppRoutingModule,
     Ng2PageScrollModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [
     BoardService

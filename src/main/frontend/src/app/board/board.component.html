@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <h1 class="text-uppercase">
-          <strong>BOARD</strong>
+          <strong>COMMENT</strong>
         </h1>
         <br/><br/><br/>
       </div>
@@ -16,18 +16,18 @@
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
       
-      <div *ngFor="let brd of board" class="post-preview">
+      <div *ngFor="let brd of board; let last = last" class="post-preview">
         <span [innerHtml]="brd.contents"></span>
         <div class="regnm">
           <span>{{brd.regnm}}</span>
-          <span>{{ brd.regdt | date :'yyyy-MM-dd' }}</span>
+          <span>{{brd.regdt | date :'yyyy-MM-dd'}}</span>
         </div>
         <hr class="hr_line">
       </div>
 
       <!-- Pager -->
       <div class="clearfix">
-        <a class="btn btn-primary float-right" href="#">더보기 &rarr;</a>
+        <button class="btn btn-primary float-right" style="cursor:pointer;" (click)="fn_moreClick()">더보기 &rarr;</button>
       </div>
     </div>
   </div>

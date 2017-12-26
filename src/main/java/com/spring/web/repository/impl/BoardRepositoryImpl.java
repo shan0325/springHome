@@ -25,15 +25,28 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
 	@Override
 	public Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable) {
-		
+
 		QBoard board = QBoard.board;
-		QFile file = QFile.file;
 		
 		QueryResults<Board> result = queryFactory.selectFrom(board)
 												.where(board.menuid.eq(menuid), board.depth.eq(depth))
 												.orderBy(board.regdt.desc())
 												.limit(pageable.getPageSize())
 												.offset(pageable.getOffset())
+												.fetchResults();
+		
+		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
+	}
+	
+	@Override
+	public Page<Board> getBoardListMore(Integer menuid, Integer depth, Pageable pageable, Integer lastBrdid) {
+
+		QBoard board = QBoard.board;
+		
+		QueryResults<Board> result = queryFactory.selectFrom(board)
+												.where(board.menuid.eq(menuid), board.depth.eq(depth), board.brdid.lt(lastBrdid))
+												.orderBy(board.regdt.desc())
+												.limit(pageable.getPageSize())
 												.fetchResults();
 		
 		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
@@ -48,5 +61,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 							.where(board.brdid.eq(brdid))
 							.fetchOne();
 	}
+	
 
 }

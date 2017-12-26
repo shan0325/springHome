@@ -8,8 +8,8 @@ import com.spring.web.domain.Board;
 public interface BoardService {
 
 
-	public Page<Board> findByMenuidAndDepth(Integer BOARD_MENUID, Pageable pageable);
+	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid);
 
-	public Board findOne(Long brdid);
+	public Board getBoard(Long brdid);
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -9,7 +9,8 @@ import { Board } from './board';
 })
 export class BoardComponent implements OnInit {
 
-  board: Board[];
+  board: Board[] = [];
+  lastBrdid: number = 0;
 
   constructor(
     private boardService: BoardService
@@ -24,8 +25,24 @@ export class BoardComponent implements OnInit {
   }
 
   getBoard(): void {
-    this.boardService.getBoard().then(board => {
-      this.board = board;
+    this.boardService.getBoard().then(board => this.board = board);
+  }
+
+  //더보기 버튼 클릭 시
+  fn_moreClick(): void {
+    this.board.forEach(element => {
+      this.lastBrdid = element.brdid;
+    });
+
+    this.boardService.getBoardMore(this.lastBrdid).then(board => {
+      if(board.length == 0) {
+        alert("내용이 없습니다.");
+        return;
+      }
+
+      board.forEach(element => {
+        this.board.push(element);
+      });
     });
   }
 

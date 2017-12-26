@@ -13,7 +13,14 @@ export class BoardService {
     constructor(private http: Http) {}
 
     getBoard(): Promise<Board[]> {
-        return this.http.get('/board')
+        return this.http.get('/board?size=2')
+                    .toPromise()
+                    .then(response => response.json().content as Board[])
+                    .catch(this.handleError);
+    }
+
+    getBoardMore(brdid: number): Promise<Board[]> {
+        return this.http.get('/board?size=2&lastBrdid=' + brdid)
                     .toPromise()
                     .then(response => response.json().content as Board[])
                     .catch(this.handleError);

@@ -20,15 +20,19 @@ public class BoardServiceImpl implements BoardService {
 	
 	
 	@Override
-	public Page<Board> findByMenuidAndDepth(Integer BOARD_MENUID, Pageable pageable) {
+	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid) {
 		
 		//return boardRepository.findByMenuidAndDepth(BOARD_MENUID, 1, pageable);
-		
-		return boardRepository.getBoardList(BOARD_MENUID, 1, pageable);
+
+		if(lastBrdid != null && lastBrdid > 0) {
+			return boardRepository.getBoardListMore(BOARD_MENUID, 1, pageable, lastBrdid);
+		} else {
+			return boardRepository.getBoardList(BOARD_MENUID, 1, pageable);
+		}
 	}
 
 	@Override
-	public Board findOne(Long brdid) {
+	public Board getBoard(Long brdid) {
 
 		//return boardRepository.findOne(brdid);
 		Board boardDetail = boardRepository.getBoardByQuerydsl(brdid);

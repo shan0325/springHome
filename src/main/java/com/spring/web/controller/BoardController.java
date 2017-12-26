@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring.web.domain.Board;
@@ -46,8 +47,10 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/board")
-	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
-		Page<Board> page = boardService.findByMenuidAndDepth(BOARD_MENUID, pageable);
+	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=10) Pageable pageable,
+												@RequestParam(required=false) Integer lastBrdid) {
+		
+		Page<Board> page = boardService.getBoardList(BOARD_MENUID, pageable, lastBrdid);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
@@ -68,7 +71,8 @@ public class BoardController {
 	 */
 	@GetMapping("/board/{brdid}")
 	public ResponseEntity<BoardDto.BoardDetail> getBoard(@PathVariable Long brdid) {
-		Board board = boardService.findOne(brdid);
+		
+		Board board = boardService.getBoard(brdid);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(board, BoardDto.BoardDetail.class), HttpStatus.OK);
@@ -80,8 +84,10 @@ public class BoardController {
 	 * @return
 	 */
 	@GetMapping("/album")
-	public Page<BoardDto.Board> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=5) Pageable pageable) {
-		Page<Board> page = boardService.findByMenuidAndDepth(ALBUM_MENUID, pageable);
+	public Page<BoardDto.Board> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=10) Pageable pageable,
+												@RequestParam(required=false) Integer lastBrdid) {
+		
+		Page<Board> page = boardService.getBoardList(ALBUM_MENUID, pageable, lastBrdid);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
@@ -102,7 +108,8 @@ public class BoardController {
 	 */
 	@GetMapping("/album/{brdid}")
 	public ResponseEntity<BoardDto.BoardDetail> getAlbum(@PathVariable Long brdid) {
-		Board album = boardService.findOne(brdid);
+		
+		Board album = boardService.getBoard(brdid);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(album, BoardDto.BoardDetail.class), HttpStatus.OK);
