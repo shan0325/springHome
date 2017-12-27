@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -13,8 +14,22 @@ export class BoardComponent implements OnInit {
   lastBrdid: number = 0;
 
   constructor(
-    private boardService: BoardService
-  ) { }
+    private boardService: BoardService,
+    private fb: FacebookService
+  ) {
+     
+    let initParams: InitParams = {
+      appId: '1452331958145067',
+      xfbml: true,
+      version: 'v2.8'
+    };
+ 
+    fb.init(initParams);
+
+    this.fb.login()
+    .then((response: LoginResponse) => console.log(response))
+    .catch((error: any) => console.error(error));
+  }
 
   ngOnInit() {
     document.getElementById("mainNav").style.display = "none";
