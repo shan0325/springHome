@@ -6,10 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { FacebookModule } from 'ngx-facebook';
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { BoardComponent } from './board/board.component';
+import { BoardWriteComponent } from './board/boardWrite.component';
 import { AlbumComponent } from './album/album.component';
 
 import { BoardService } from './board/board.service';
@@ -20,6 +22,7 @@ import { BoardService } from './board/board.service';
     AppComponent,
     MainComponent,
     BoardComponent,
+    BoardWriteComponent,
     AlbumComponent
   ],
   imports: [
@@ -28,7 +31,9 @@ import { BoardService } from './board/board.service';
     Ng2PageScrollModule,
     HttpModule,
     FormsModule,
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    BootstrapModalModule,
+    BootstrapModalModule.forRoot({container:document.body})
   ],
   providers: [
     BoardService

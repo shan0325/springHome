@@ -313,11 +313,24 @@
   
   .btn-primary {
     background-color: #F05F40;
-    border-color: #F05F40; }
+    border-color: #F05F40; 
+    cursor: pointer;
+  }
     .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
       color: #fff;
       background-color: #00657b !important;
       border-color: #00657b !important; }
+
+  .btn-default {
+    background-color: #fff;
+    border: solid 1px #F05F40; 
+    color: #F05F40;
+    cursor: pointer;
+  }
+    .btn-default:hover, .btn-default:focus, .btn-default:active {
+      color: #fff;
+      background-color: #00657b !important;
+      border-color: #00657b !important; }    
   
   .btn-lg {
     font-size: 16px;

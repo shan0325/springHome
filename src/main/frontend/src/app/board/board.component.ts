@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
+import { DialogService } from 'ng2-bootstrap-modal';
+
+import { BoardWriteComponent } from './boardWrite.component';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -15,21 +18,9 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
-    private fb: FacebookService
-  ) {
-     
-    let initParams: InitParams = {
-      appId: '1452331958145067',
-      xfbml: true,
-      version: 'v2.8'
-    };
- 
-    fb.init(initParams);
-
-    this.fb.login()
-    .then((response: LoginResponse) => console.log(response))
-    .catch((error: any) => console.error(error));
-  }
+    private fb: FacebookService,
+    private dialogService: DialogService
+  ) { }
 
   ngOnInit() {
     document.getElementById("mainNav").style.display = "none";
@@ -39,6 +30,7 @@ export class BoardComponent implements OnInit {
     this.getBoard();
   }
 
+  //board 리스트 가져오기
   getBoard(): void {
     this.boardService.getBoard().then(board => this.board = board);
   }
@@ -61,6 +53,26 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  
+  //글쓰기 버튼 클릭시
+  fn_openWriteModal(): void {
+    alert(1);
+    let disposable = this.dialogService.addDialog(BoardWriteComponent, {
+      title:'Confirm title', 
+      message:'Confirm message'})
+      .subscribe((isConfirmed)=>{
+          //We get dialog result
+          if(isConfirmed) {
+              alert('accepted');
+          }
+          else {
+              alert('declined');
+          }
+      });
+    //We can close dialog calling disposable.unsubscribe();
+    //If dialog was not closed manually close it by timeout
+    setTimeout(()=>{
+        disposable.unsubscribe();
+    },10000);
+  }
 
 }
