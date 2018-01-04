@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -19,12 +18,12 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
-    private fb: FacebookService
-  ) { 
-    this.messageForm = new FormGroup({
-      'regnm': new FormControl(),
-      'pwd': new FormControl(),
-      'contents': new FormControl()
+    private fb: FormBuilder
+  ) {
+    this.messageForm = this.fb.group({
+      regnm:['', Validators.required],
+      pwd:['', Validators.required],
+      contents:['', Validators.required]
     });
   }
 
@@ -73,7 +72,7 @@ export class BoardComponent implements OnInit {
 
   onSubmit(): void {
     console.log('you submitted value:', this.messageForm);
-
+    alert("valid = " + this.messageForm.valid);
    
   }
 
