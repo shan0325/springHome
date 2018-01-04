@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 
-export interface BoardWriteModal {
+export interface BoardWriteModel {
     title: string;
     message: string;
 }
@@ -23,7 +23,7 @@ export interface BoardWriteModal {
                  </div>
               </div>`
 })
-export class BoardWriteComponent extends DialogComponent<BoardWriteModal, boolean> implements BoardWriteModal {
+export class BoardWriteComponent extends DialogComponent<BoardWriteModel, boolean> implements BoardWriteModel {
     title: string;
     message: string;
     constructor(dialogService: DialogService) {

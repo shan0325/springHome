@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
-import { DialogService } from 'ng2-bootstrap-modal';
-
-import { BoardWriteComponent } from './boardWrite.component';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
+
+declare var $: any; //jquery 사용
 
 @Component({
   templateUrl: './board.component.html',
@@ -13,21 +13,34 @@ import { Board } from './board';
 })
 export class BoardComponent implements OnInit {
 
+  messageForm: FormGroup;
   board: Board[] = [];
   lastBrdid: number = 0;
 
   constructor(
     private boardService: BoardService,
-    private fb: FacebookService,
-    private dialogService: DialogService
-  ) { }
+    private fb: FacebookService
+  ) { 
+    this.messageForm = new FormGroup({
+      'regnm': new FormControl(),
+      'pwd': new FormControl(),
+      'contents': new FormControl()
+    });
+  }
 
   ngOnInit() {
     document.getElementById("mainNav").style.display = "none";
     document.getElementById("subNav").style.display = "block";
     window.scrollTo(0,0);
 
+    //처음 페이지 로딩 시 데이터 가져오기
     this.getBoard();
+    
+    //message modal hide 시
+    $('#writeModal').on('hide.bs.modal', function (e) {
+      // do something...
+      $("#messageForm")[0].reset();
+    })
   }
 
   //board 리스트 가져오기
@@ -40,7 +53,7 @@ export class BoardComponent implements OnInit {
     this.board.forEach(element => {
       this.lastBrdid = element.brdid;
     });
-
+    
     this.boardService.getBoardMore(this.lastBrdid).then(board => {
       if(board.length == 0) {
         alert("내용이 없습니다.");
@@ -53,26 +66,16 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  //글쓰기 버튼 클릭시
-  fn_openWriteModal(): void {
-    alert(1);
-    let disposable = this.dialogService.addDialog(BoardWriteComponent, {
-      title:'Confirm title', 
-      message:'Confirm message'})
-      .subscribe((isConfirmed)=>{
-          //We get dialog result
-          if(isConfirmed) {
-              alert('accepted');
-          }
-          else {
-              alert('declined');
-          }
-      });
-    //We can close dialog calling disposable.unsubscribe();
-    //If dialog was not closed manually close it by timeout
-    setTimeout(()=>{
-        disposable.unsubscribe();
-    },10000);
+  //메시지 등록
+  fn_saveMessage(): void {
+
   }
+
+  onSubmit(): void {
+    console.log('you submitted value:', this.messageForm);
+
+   
+  }
+
 
 }
