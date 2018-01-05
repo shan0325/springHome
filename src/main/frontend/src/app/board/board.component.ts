@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -12,20 +12,14 @@ declare var $: any; //jquery 사용
 })
 export class BoardComponent implements OnInit {
 
-  messageForm: FormGroup;
   board: Board[] = [];
   lastBrdid: number = 0;
+  message: Board = new Board();
 
   constructor(
     private boardService: BoardService,
     private fb: FormBuilder
-  ) {
-    this.messageForm = this.fb.group({
-      regnm:['', Validators.required],
-      pwd:['', Validators.required],
-      contents:['', Validators.required]
-    });
-  }
+  ) { }
 
   ngOnInit() {
     document.getElementById("mainNav").style.display = "none";
@@ -34,10 +28,14 @@ export class BoardComponent implements OnInit {
 
     //처음 페이지 로딩 시 데이터 가져오기
     this.getBoard();
+
+    //message modal show 시
+    $('#writeModal').on('show.bs.modal', function (e) {
+      $("#messageForm input[name='regnm']").focus();
+    })
     
     //message modal hide 시
     $('#writeModal').on('hide.bs.modal', function (e) {
-      // do something...
       $("#messageForm")[0].reset();
     })
   }
@@ -65,15 +63,12 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  //메시지 등록
-  fn_saveMessage(): void {
+  onSubmit(form: NgForm): void {
+    console.log('you submitted value:', form);
 
-  }
-
-  onSubmit(): void {
-    console.log('you submitted value:', this.messageForm);
-    alert("valid = " + this.messageForm.valid);
-   
+    if(form.valid) {
+      alert("submit");
+    }
   }
 
 

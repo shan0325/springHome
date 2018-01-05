@@ -12,4 +12,5 @@ export class Board {
     regdt: string;
     topdisyn: string;
     files: File[];
+    pwd: string;
 }

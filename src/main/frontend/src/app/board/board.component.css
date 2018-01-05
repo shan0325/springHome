@@ -358,3 +358,8 @@
     margin-right: 11px;
     background: url(/assets/home/img/sub/line.jpg) right center no-repeat;
   }
+
+  .form-group > div {
+    color: #F05F40;
+    font-size: 14px;
+  }
