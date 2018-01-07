@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,6 +79,22 @@ public class BoardController {
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(board, BoardDto.BoardDetail.class), HttpStatus.OK);
+	}
+	
+	/**
+	 * 게시판 등록
+	 * @param request
+	 * @param board
+	 * @return
+	 */
+	@PostMapping("/board")
+	public ResponseEntity<BoardDto.BoardDetail> insertBoard(HttpServletRequest request, @RequestBody Board board) {
+		
+		logger.info("board = " + board);
+		
+		Board boardDetail = boardService.insertBoard(request, BOARD_MENUID,  board);
+		
+		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(boardDetail, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	
 	/**

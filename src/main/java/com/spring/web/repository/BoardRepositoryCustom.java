@@ -32,4 +32,10 @@ public interface BoardRepositoryCustom {
 	 * @return
 	 */
 	Board getBoardByQuerydsl(Long brdid);
+	
+	/**
+	 * 게시판 등록
+	 * @param board
+	 */
+	void insertBoard(Board board);
 }

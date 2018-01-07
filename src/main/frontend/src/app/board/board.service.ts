@@ -26,6 +26,13 @@ export class BoardService {
                     .catch(this.handleError);
     }
 
+    insert(board: Board): Promise<Board> {
+        return this.http.post("/board", JSON.stringify(board), {headers: this.headers})
+                        .toPromise()
+                        .then(() => board)
+                        .catch(this.handleError);
+    }
+
     handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);

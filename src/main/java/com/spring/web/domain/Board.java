@@ -41,13 +41,13 @@ public class Board {
 	private Integer sitemenuid;
 	
 	@Column(length=5)
-	private Integer depth;
+	private Integer depth = 1;
 	
 	@Column(length=300)
 	private String title;
 	
 	@Column(length=10)
-	private Integer dataofferdept;
+	private Integer dataofferdept = 0;
 	
 	@Column(length=50)
 	private String ask;
@@ -65,19 +65,19 @@ public class Board {
 	private String contents;
 	
 	@Column(length=1)
-	private String disyn;
+	private String disyn = "Y";
 	
 	@Column
-	private Integer viewcnt;
+	private Integer viewcnt = 0;
 	
 	@Column
-	private Integer likecnt;
+	private Integer likecnt = 0;
 	
 	@Column(length=18)
 	private String ip;
 	
 	@Column(length=1)
-	private String secretyn;
+	private String secretyn = "N";
 	
 	@Column(length=50)
 	private String pwd;
@@ -86,7 +86,7 @@ public class Board {
 	private String email;
 	
 	@Column(length=1)
-	private String emailrecvyn;
+	private String emailrecvyn = "N";
 	
 	@Column(length=20)
 	private String tel;
@@ -110,7 +110,7 @@ public class Board {
 	private String addr2;
 	
 	@Column(length=10)
-	private Integer ord;
+	private Integer ord = 0;
 	
 	@Column(length=20)
 	private String regid;
@@ -125,7 +125,7 @@ public class Board {
 	private Date moddt;
 	
 	@Column(length=1)
-	private String topdisyn;
+	private String topdisyn = "N";
 	
 	@OneToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="brdid")

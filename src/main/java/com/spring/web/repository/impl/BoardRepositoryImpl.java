@@ -61,6 +61,15 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 							.where(board.brdid.eq(brdid))
 							.fetchOne();
 	}
+
+	@Override
+	public void insertBoard(Board inserBoard) {
+		
+		QBoard board = QBoard.board;
+		
+		
+		
+	}
 	
 
 }

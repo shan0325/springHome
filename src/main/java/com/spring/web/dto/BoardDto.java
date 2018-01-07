@@ -44,4 +44,5 @@ public class BoardDto {
 		private Date regdt;
 		private List<File> files;
 	}
+	
 }

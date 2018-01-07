@@ -1,5 +1,7 @@
 package com.spring.web.service;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,5 +13,7 @@ public interface BoardService {
 	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid);
 
 	public Board getBoard(Long brdid);
+
+	public Board insertBoard(HttpServletRequest request, Integer BOARD_MENUID, Board board);
 
 }

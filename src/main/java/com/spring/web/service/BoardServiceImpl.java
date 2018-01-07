@@ -1,5 +1,8 @@
 package com.spring.web.service;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.apache.commons.text.StringEscapeUtils;
@@ -8,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.spring.web.SpringHomeApplication;
 import com.spring.web.domain.Board;
 import com.spring.web.repository.BoardRepository;
 
@@ -19,6 +23,9 @@ public class BoardServiceImpl implements BoardService {
 	private BoardRepository boardRepository;
 	
 	
+	/**
+	 * board 리스트 가져오기
+	 */
 	@Override
 	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid) {
 		
@@ -31,6 +38,9 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	/**
+	 * board 상세 가져오기
+	 */
 	@Override
 	public Board getBoard(Long brdid) {
 
@@ -41,6 +51,27 @@ public class BoardServiceImpl implements BoardService {
 		boardDetail.setContents(StringEscapeUtils.unescapeHtml4(boardDetail.getContents()));
 		
 		return boardDetail;
+	}
+
+	/**
+	 * board 등록
+	 */
+	@Override
+	public Board insertBoard(HttpServletRequest request, Integer BOARD_MENUID, Board board) {
+		
+		board.setSitemenuid(SpringHomeApplication.SITEMENUID);
+		board.setMenuid(BOARD_MENUID);
+		
+		String ip = request.getHeader("X-FORWARDED-FOR");
+		if(ip == null) {
+			ip = request.getRemoteAddr();
+		}
+		board.setIp(ip);
+		board.setRegdt(new Date());
+		
+		boardRepository.insertBoard(board);
+
+		return null;
 	}
 
 }

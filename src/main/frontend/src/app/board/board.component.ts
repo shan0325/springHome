@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { BoardService } from './board.service';
 import { Board } from './board';
@@ -18,7 +19,8 @@ export class BoardComponent implements OnInit {
 
   constructor(
     private boardService: BoardService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -30,14 +32,14 @@ export class BoardComponent implements OnInit {
     this.getBoard();
 
     //message modal show 시
-    $('#writeModal').on('show.bs.modal', function (e) {
-      $("#messageForm input[name='regnm']").focus();
-    })
+    $('#writeModal').on('shown.bs.modal', function(e) {
+      $("#regnm").focus();
+    });
     
     //message modal hide 시
-    $('#writeModal').on('hide.bs.modal', function (e) {
+    $('#writeModal').on('hide.bs.modal', function(e) {
       $("#messageForm")[0].reset();
-    })
+    });
   }
 
   //board 리스트 가져오기
@@ -64,11 +66,30 @@ export class BoardComponent implements OnInit {
   }
 
   onSubmit(form: NgForm): void {
-    console.log('you submitted value:', form);
+    //console.log('you submitted value:', form);
+    console.log("regnm = " + this.message.regnm);
+
+    if(!form.controls.regnm.valid) {
+      $("#regnm").focus();
+      return;
+    } 
+    else if(!form.controls.pwd.valid) {
+      $("#pwd").focus();
+      return;
+    }
+    else if(!form.controls.contents.valid) {
+      $("#contents").focus();
+      return;
+    }
 
     if(form.valid) {
-      alert("submit");
-    }
+      this.boardService.insert(this.message)
+          .then(() => this.goBack());
+    }    
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 
