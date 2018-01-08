@@ -1,5 +1,7 @@
 package com.spring.web.repository.impl;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.spring.web.domain.Board;
 import com.spring.web.domain.QBoard;
-import com.spring.web.domain.QFile;
 import com.spring.web.repository.BoardRepositoryCustom;
 
 @Repository
@@ -20,6 +21,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@Autowired
+	private EntityManager entityManager;
+	
 	@Autowired
 	private JPAQueryFactory queryFactory;
 
@@ -67,6 +71,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 		
 		QBoard board = QBoard.board;
 		
+		logger.info("entityManager = " + entityManager);
 		
 		
 	}

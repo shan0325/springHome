@@ -90,7 +90,7 @@ public class BoardController {
 	@PostMapping("/board")
 	public ResponseEntity<BoardDto.BoardDetail> insertBoard(HttpServletRequest request, @RequestBody Board board) {
 		
-		logger.info("board = " + board);
+		logger.info("board11111111111111 = " + board);
 		
 		Board boardDetail = boardService.insertBoard(request, BOARD_MENUID,  board);
 		
