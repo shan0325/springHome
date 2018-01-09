@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.apache.commons.text.StringEscapeUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.web.SpringHomeApplication;
 import com.spring.web.domain.Board;
+import com.spring.web.dto.BoardDto;
 import com.spring.web.repository.BoardRepository;
 
 @Service("boardService")
@@ -21,6 +23,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	
 	/**
@@ -57,8 +62,9 @@ public class BoardServiceImpl implements BoardService {
 	 * board 등록
 	 */
 	@Override
-	public Board insertBoard(HttpServletRequest request, Integer BOARD_MENUID, Board board) {
+	public Board insertBoard(HttpServletRequest request, Integer BOARD_MENUID, BoardDto.Create boardCreate) {
 		
+		Board board = modelMapper.map(boardCreate, Board.class);
 		board.setSitemenuid(SpringHomeApplication.SITEMENUID);
 		board.setMenuid(BOARD_MENUID);
 		
@@ -69,9 +75,12 @@ public class BoardServiceImpl implements BoardService {
 		board.setIp(ip);
 		board.setRegdt(new Date());
 		
-		boardRepository.insertBoard(board);
+		Board newBoard = boardRepository.save(board);
+		newBoard.setTopbrdid(newBoard.getBrdid());
+		
+		newBoard = boardRepository.save(newBoard);
 
-		return null;
+		return newBoard;
 	}
 
 }

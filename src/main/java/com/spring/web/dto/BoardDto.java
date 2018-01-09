@@ -3,8 +3,9 @@ package com.spring.web.dto;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.spring.web.domain.File;
 
@@ -43,6 +44,19 @@ public class BoardDto {
 		private String regnm;
 		private Date regdt;
 		private List<File> files;
+	}
+	
+	@Data
+	public static class Create {
+		@NotBlank
+		private String regnm;
+		
+		@NotBlank
+		@Size(min = 4)
+		private String pwd;
+		
+		@NotBlank
+		private String contents;
 	}
 	
 }

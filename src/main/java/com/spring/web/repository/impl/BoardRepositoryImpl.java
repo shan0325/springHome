@@ -21,8 +21,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Autowired
-	private EntityManager entityManager;
 	
 	@Autowired
 	private JPAQueryFactory queryFactory;
@@ -65,16 +63,5 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 							.where(board.brdid.eq(brdid))
 							.fetchOne();
 	}
-
-	@Override
-	public void insertBoard(Board inserBoard) {
-		
-		QBoard board = QBoard.board;
-		
-		logger.info("entityManager = " + entityManager);
-		
-		
-	}
-	
 
 }

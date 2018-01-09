@@ -32,10 +32,10 @@ public class Board {
 	private Integer menuid;
 	
 	@Column(length=10)
-	private Integer parbrdid;
+	private Long parbrdid;
 	
 	@Column(length=10)
-	private Integer topbrdid;
+	private Long topbrdid;
 	
 	@Column(length=10)
 	private Integer sitemenuid;

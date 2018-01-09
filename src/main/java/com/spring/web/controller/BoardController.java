@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,13 +90,18 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/board")
-	public ResponseEntity<BoardDto.BoardDetail> insertBoard(HttpServletRequest request, @RequestBody Board board) {
+	public ResponseEntity insertBoard(HttpServletRequest request, 
+															@RequestBody @Valid BoardDto.Create board,
+															BindingResult result) {
 		
-		logger.info("board11111111111111 = " + board);
+		if(result.hasErrors()) {
+			
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		
-		Board boardDetail = boardService.insertBoard(request, BOARD_MENUID,  board);
+		Board newBoard = boardService.insertBoard(request, BOARD_MENUID,  board);
 		
-		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(boardDetail, BoardDto.BoardDetail.class), HttpStatus.OK);
+		return new ResponseEntity<>(modelMapper.map(newBoard, BoardDto.BoardDetail.class), HttpStatus.CREATED);
 	}
 	
 	/**
