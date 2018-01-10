@@ -91,15 +91,15 @@ public class BoardController {
 	 */
 	@PostMapping("/board")
 	public ResponseEntity insertBoard(HttpServletRequest request, 
-															@RequestBody @Valid BoardDto.Create board,
-															BindingResult result) {
+										@RequestBody @Valid BoardDto.Create board,
+										BindingResult result) {
 		
 		if(result.hasErrors()) {
 			
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		Board newBoard = boardService.insertBoard(request, BOARD_MENUID,  board);
+		Board newBoard = boardService.insertBoard(request, BOARD_MENUID, board);
 		
 		return new ResponseEntity<>(modelMapper.map(newBoard, BoardDto.BoardDetail.class), HttpStatus.CREATED);
 	}

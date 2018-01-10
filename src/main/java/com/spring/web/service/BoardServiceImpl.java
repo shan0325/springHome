@@ -75,9 +75,11 @@ public class BoardServiceImpl implements BoardService {
 		board.setIp(ip);
 		board.setRegdt(new Date());
 		
+		//저장
 		Board newBoard = boardRepository.save(board);
 		newBoard.setTopbrdid(newBoard.getBrdid());
 		
+		//업데이트
 		newBoard = boardRepository.save(newBoard);
 
 		return newBoard;

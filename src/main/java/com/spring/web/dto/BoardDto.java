@@ -48,14 +48,14 @@ public class BoardDto {
 	
 	@Data
 	public static class Create {
-		@NotBlank
+		@NotBlank(message="이름을 입력해주세요.")
 		private String regnm;
 		
-		@NotBlank
+		@NotBlank(message="비밀번호를 입력해주세요.")
 		@Size(min = 4)
 		private String pwd;
 		
-		@NotBlank
+		@NotBlank(message="메시지를 입력해주세요.")
 		private String contents;
 	}
 	
