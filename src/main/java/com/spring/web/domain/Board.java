@@ -32,7 +32,7 @@ public class Board {
 	private Integer menuid;
 	
 	@Column(length=10)
-	private Long parbrdid;
+	private Long parbrdid = 0;
 	
 	@Column(length=10)
 	private Long topbrdid;

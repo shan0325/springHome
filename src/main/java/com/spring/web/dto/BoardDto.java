@@ -52,7 +52,7 @@ public class BoardDto {
 		private String regnm;
 		
 		@NotBlank(message="비밀번호를 입력해주세요.")
-		@Size(min = 4)
+		@Size(min = 4, message="4자이상으로 입력해주세요.")
 		private String pwd;
 		
 		@NotBlank(message="메시지를 입력해주세요.")

@@ -20,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.web.common.ErrorResponse;
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
 import com.spring.web.service.BoardService;
@@ -95,8 +97,12 @@ public class BoardController {
 										BindingResult result) {
 		
 		if(result.hasErrors()) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ErrorResponse.MESSAGE_BAD_REQUEST);
+			errorResponse.setCode(ErrorResponse.CODE_BAD_REQUEST);
+			errorResponse.setErrors(result.getFieldErrors());
 			
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 		}
 		
 		Board newBoard = boardService.insertBoard(request, BOARD_MENUID, board);

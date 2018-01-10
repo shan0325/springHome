@@ -1,8 +1,10 @@
 package com.spring.web.controller;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.net.ssl.SSLEngineResult.Status;
@@ -54,6 +56,22 @@ public class BoardControllerTest {
 		
 		result.andDo(print());
 		result.andExpect(status().isCreated());
+	}
+	
+	@Test
+	public void insertBoard_BadRequest()throws Exception {
+		BoardDto.Create board = new BoardDto.Create();
+		board.setRegnm(" ");
+		board.setPwd("123");
+		board.setContents("hello");
+		
+		ResultActions result = mockMvc.perform(post("/board")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(objectMapper.writeValueAsString(board)));
+		
+		result.andDo(print());
+		result.andExpect(status().isBadRequest());
+		result.andExpect(jsonPath("$.code", is("Bad.Request")));
 	}
 		
 	@Test
