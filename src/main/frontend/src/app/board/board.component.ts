@@ -67,7 +67,6 @@ export class BoardComponent implements OnInit {
 
   onSubmit(form: NgForm): void {
     //console.log('you submitted value:', form);
-    console.log("regnm = " + this.message.regnm);
 
     if(!form.controls.regnm.valid) {
       $("#regnm").focus();
@@ -84,8 +83,11 @@ export class BoardComponent implements OnInit {
 
     if(form.valid) {
       this.boardService.insert(this.message)
-          .then(() => this.goBack());
-    }    
+          .then(() => {
+            window.location.reload();
+            //this.goBack()
+          });
+    }
   }
 
   goBack(): void {

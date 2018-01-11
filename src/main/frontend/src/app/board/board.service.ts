@@ -29,12 +29,15 @@ export class BoardService {
     insert(board: Board): Promise<Board> {
         return this.http.post("/board", JSON.stringify(board), {headers: this.headers})
                         .toPromise()
-                        .then(() => board)
+                        .then(response => response.json().content as Board)
                         .catch(this.handleError);
     }
 
     handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
+        let bodyObj = JSON.parse(error._body);
+        alert(bodyObj.message);
+
         return Promise.reject(error.message || error);
     }
 }
