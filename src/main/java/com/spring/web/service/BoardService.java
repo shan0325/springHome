@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
+import com.spring.web.dto.BoardDto.Delete;
+import com.spring.web.dto.BoardDto.Update;
 
 public interface BoardService {
 
@@ -16,5 +18,9 @@ public interface BoardService {
 	public Board getBoard(Long brdid);
 
 	public Board insertBoard(HttpServletRequest request, Integer BOARD_MENUID, BoardDto.Create board);
+
+	public Board updateBoard(Long brdid, BoardDto.Update updateBoard);
+
+	public void deleteBoard(Long brdid, Delete deleteBoard);
 
 }

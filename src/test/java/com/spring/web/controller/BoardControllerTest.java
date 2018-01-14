@@ -1,8 +1,10 @@
 package com.spring.web.controller;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -81,6 +83,53 @@ public class BoardControllerTest {
 				.andDo(print())
 				.andExpect(status().isOk());
 	}
+	
+	@Test
+	public void updateBoard() throws Exception {
+		
+		BoardDto.Update updateBoard = new BoardDto.Update();
+		updateBoard.setRegnm("홍길동");
+		updateBoard.setPwd("1234");
+		updateBoard.setContents("헬로 홍길동");
+		
+		ResultActions result = mockMvc.perform(put("/board/114")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(objectMapper.writeValueAsString(updateBoard)));
+		
+		result.andDo(print());
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.contents", is("헬로 홍길동")));
+	}
+	
+	@Test
+	public void updateBoard_NotFound() throws Exception {
+		
+		BoardDto.Update updateBoard = new BoardDto.Update();
+		updateBoard.setRegnm("홍길동");
+		updateBoard.setPwd("1234");
+		updateBoard.setContents("헬로 홍길동");
+		
+		ResultActions result = mockMvc.perform(put("/board/999")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(objectMapper.writeValueAsString(updateBoard)));
+		
+		result.andDo(print());
+		result.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	public void deleteBoard() throws Exception {
+		BoardDto.Delete deleteBoard = new BoardDto.Delete();
+		deleteBoard.setPwd("1234");
+		
+		ResultActions result = mockMvc.perform(delete("/board/114")
+										.contentType(MediaType.APPLICATION_JSON)
+										.content(objectMapper.writeValueAsString(deleteBoard)));
+		
+		result.andDo(print());
+		result.andExpect(status().isOk());
+	}
+	
 	
 	
 }

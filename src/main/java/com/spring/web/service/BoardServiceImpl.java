@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import com.spring.web.SpringHomeApplication;
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
+import com.spring.web.dto.BoardDto.Delete;
+import com.spring.web.exception.BoardNotFoundException;
+import com.spring.web.exception.BoardPasswordNotMatchException;
 import com.spring.web.repository.BoardRepository;
 
 @Service("boardService")
@@ -50,10 +53,21 @@ public class BoardServiceImpl implements BoardService {
 	public Board getBoard(Long brdid) {
 
 		//return boardRepository.findOne(brdid);
-		Board boardDetail = boardRepository.getBoardByQuerydsl(brdid);
+		Board boardDetail = getBoardDetail(brdid);
 		
 		//내용 unescape Html 처리
 		boardDetail.setContents(StringEscapeUtils.unescapeHtml4(boardDetail.getContents()));
+		
+		return boardDetail;
+	}
+	
+	public Board getBoardDetail(Long brdid) {
+		//return boardRepository.findOne(brdid);
+		Board boardDetail = boardRepository.getBoardByQuerydsl(brdid);
+		
+		if(boardDetail == null) {
+			throw new BoardNotFoundException(brdid);
+		}
 		
 		return boardDetail;
 	}
@@ -83,6 +97,36 @@ public class BoardServiceImpl implements BoardService {
 		newBoard = boardRepository.save(newBoard);
 
 		return newBoard;
+	}
+
+	/**
+	 * board 수정
+	 */
+	@Override
+	public Board updateBoard(Long brdid, BoardDto.Update updateBoard) {
+
+		Board boardDetail = getBoardDetail(brdid);
+		boardDetail.setRegnm(updateBoard.getRegnm());
+		boardDetail.setPwd(updateBoard.getPwd());
+		boardDetail.setContents(updateBoard.getContents());
+		
+		return boardRepository.save(boardDetail);
+	}
+
+	/**
+	 * board 삭제
+	 */
+	@Override
+	public void deleteBoard(Long brdid, Delete deleteBoard) {
+		
+		Board boardDetail = getBoardDetail(brdid);
+		
+		if(!deleteBoard.getPwd().equals(boardDetail.getPwd())) {
+			
+			throw new BoardPasswordNotMatchException(deleteBoard.getPwd());
+		}
+		
+		boardRepository.delete(brdid);
 	}
 
 }

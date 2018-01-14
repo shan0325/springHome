@@ -59,4 +59,25 @@ public class BoardDto {
 		private String contents;
 	}
 	
+	@Data
+	public static class Update {
+		@NotBlank(message="이름을 입력해주세요.")
+		private String regnm;
+		
+		@NotBlank(message="비밀번호를 입력해주세요.")
+		@Size(min = 4, message="4자이상으로 입력해주세요.")
+		private String pwd;
+		
+		@NotBlank(message="메시지를 입력해주세요.")
+		private String contents;
+	}
+	
+	@Data
+	public static class Delete {
+		
+		@NotBlank(message="비밀번호를 입력해주세요.")
+		@Size(min = 4, message="4자이상으로 입력해주세요.")
+		private String pwd;
+	}
+	
 }

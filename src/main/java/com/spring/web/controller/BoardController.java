@@ -20,10 +20,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.spring.web.common.ErrorResponse;
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
+import com.spring.web.exception.BoardNotFoundException;
+import com.spring.web.exception.BoardPasswordNotMatchException;
 import com.spring.web.service.BoardService;
 
 @RestController
@@ -111,6 +115,60 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시판 수정
+	 * @param brdid
+	 * @param updateBoard
+	 * @param result
+	 * @return
+	 */
+	@PutMapping("/board/{brdid}")
+	public ResponseEntity updateBoard(@PathVariable Long brdid,
+										@RequestBody @Valid BoardDto.Update updateBoard,
+										BindingResult result) {
+		
+		if(result.hasErrors()) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ErrorResponse.MESSAGE_BAD_REQUEST);
+			errorResponse.setCode(ErrorResponse.CODE_BAD_REQUEST);
+			errorResponse.setErrors(result.getFieldErrors());
+			
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
+		
+		Board board = boardService.updateBoard(brdid, updateBoard);
+		
+		return new ResponseEntity<>(modelMapper.map(board, BoardDto.BoardDetail.class), HttpStatus.OK);
+	}
+	
+	/**
+	 * 게시판 삭제
+	 * @param brdid
+	 * @param deleteBoard
+	 * @param result
+	 * @return
+	 */
+	@DeleteMapping("/board/{brdid}")
+	public ResponseEntity deleteBoard(@PathVariable Long brdid,
+										@RequestBody @Valid BoardDto.Delete deleteBoard,
+										BindingResult result) {
+		
+		if(result.hasErrors()) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ErrorResponse.MESSAGE_BAD_REQUEST);
+			errorResponse.setCode(ErrorResponse.CODE_BAD_REQUEST);
+			errorResponse.setErrors(result.getFieldErrors());
+			
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
+		
+		boardService.deleteBoard(brdid, deleteBoard);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	
+	/**
 	 * 앨범 리스트
 	 * @param pageable
 	 * @return
@@ -147,6 +205,23 @@ public class BoardController {
 		return new ResponseEntity<BoardDto.BoardDetail>(modelMapper.map(album, BoardDto.BoardDetail.class), HttpStatus.OK);
 	}
 	
+	@ExceptionHandler(BoardNotFoundException.class)
+	public ResponseEntity handleBoardNotFoundException(BoardNotFoundException e) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage("[" + e.getBrdid() + "]에 해당하는 게시판이 없습니다.");
+		errorResponse.setCode("board.not.found.exception");
+		
+		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(BoardPasswordNotMatchException.class)
+	public ResponseEntity handleBoardPasswordNotMatchException(BoardPasswordNotMatchException e) {
+		ErrorResponse errorResponse = new ErrorResponse();
+		errorResponse.setMessage("[" + e.getPwd() + "] 비밀번호가 일치하지 않습니다.");
+		errorResponse.setCode("board.password.not.match.exception");
+		
+		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
 
 	
 }

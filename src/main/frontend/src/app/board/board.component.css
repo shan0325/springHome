@@ -316,6 +316,11 @@
     border-color: #F05F40; 
     cursor: pointer;
   }
+
+  .btn-small {
+    padding:3px 5px;
+    font-size: 13px;
+  }
     .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
       color: #fff;
       background-color: #00657b !important;
