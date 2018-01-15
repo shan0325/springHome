@@ -94,5 +94,15 @@ export class BoardComponent implements OnInit {
     this.location.back();
   }
 
+  pwdOnSubmit(form: NgForm): void {
+    console.log('you submitted value:', form);
+    console.log(this.message);
+
+    this.boardService.checkPassword(this.message.pwd)
+        .then(() => {
+
+        });
+  }
+
 
 }

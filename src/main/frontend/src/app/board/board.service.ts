@@ -33,6 +33,12 @@ export class BoardService {
                         .catch(this.handleError);
     }
 
+    checkPassword(pwd: string): Promise<any> {
+        return this.http.post("/board/chkPwd", JSON.stringify(pwd), {headers: this.headers})
+                        .toPromise()
+                        .catch(this.handleError)
+    }
+
     handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
         let bodyObj = JSON.parse(error._body);
