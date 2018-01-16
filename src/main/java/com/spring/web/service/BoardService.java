@@ -21,6 +21,8 @@ public interface BoardService {
 
 	public Board updateBoard(Long brdid, BoardDto.Update updateBoard);
 
-	public void deleteBoard(Long brdid, Delete deleteBoard);
+	public void deleteBoard(Long brdid);
+
+	public boolean checkPassword(Long brdid, String pwd);
 
 }

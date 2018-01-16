@@ -33,10 +33,17 @@ export class BoardService {
                         .catch(this.handleError);
     }
 
-    checkPassword(pwd: string): Promise<any> {
-        return this.http.post("/board/chkPwd", JSON.stringify(pwd), {headers: this.headers})
+    checkPassword(brdid: number, board: Board): Promise<boolean> {
+        return this.http.post("/board/" + brdid + "/checkPwd", JSON.stringify(board), {headers: this.headers})
                         .toPromise()
-                        .catch(this.handleError)
+                        .then(response => response.json() as boolean)
+                        .catch(this.handleError);
+    }
+
+    deleteBoard(brdid: number): Promise<Response> {
+        return this.http.delete("/board/" + brdid)
+                    .toPromise()
+                    .catch(this.handleError);
     }
 
     handleError(error: any): Promise<any> {

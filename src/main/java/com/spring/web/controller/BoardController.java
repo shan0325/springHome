@@ -1,6 +1,7 @@
 package com.spring.web.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
@@ -34,7 +35,6 @@ import com.spring.web.common.ErrorResponse;
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
 import com.spring.web.exception.BoardNotFoundException;
-import com.spring.web.exception.BoardPasswordNotMatchException;
 import com.spring.web.service.BoardService;
 
 @RestController
@@ -148,22 +148,28 @@ public class BoardController {
 	 * @return
 	 */
 	@DeleteMapping("/board/{brdid}")
-	public ResponseEntity deleteBoard(@PathVariable Long brdid,
-										@RequestBody @Valid BoardDto.Delete deleteBoard,
-										BindingResult result) {
+	public ResponseEntity deleteBoard(@PathVariable Long brdid) {
 		
-		if(result.hasErrors()) {
-			ErrorResponse errorResponse = new ErrorResponse();
-			errorResponse.setMessage(ErrorResponse.MESSAGE_BAD_REQUEST);
-			errorResponse.setCode(ErrorResponse.CODE_BAD_REQUEST);
-			errorResponse.setErrors(result.getFieldErrors());
-			
-			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-		}
-		
-		boardService.deleteBoard(brdid, deleteBoard);
+		boardService.deleteBoard(brdid);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	/**
+	 * 비밀번호 확인
+	 * @param brdid
+	 * @param paramMap
+	 * @return
+	 */
+	@PostMapping("/board/{brdid}/checkPwd")
+	public ResponseEntity checkPwd(@PathVariable Long brdid,
+									@RequestBody Map<String, Object> paramMap) {
+		
+		String pwd = (String) paramMap.get("pwd");
+		  
+		boolean result = boardService.checkPassword(brdid, pwd);
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 	
@@ -214,14 +220,6 @@ public class BoardController {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 	
-	@ExceptionHandler(BoardPasswordNotMatchException.class)
-	public ResponseEntity handleBoardPasswordNotMatchException(BoardPasswordNotMatchException e) {
-		ErrorResponse errorResponse = new ErrorResponse();
-		errorResponse.setMessage("[" + e.getPwd() + "] 비밀번호가 일치하지 않습니다.");
-		errorResponse.setCode("board.password.not.match.exception");
-		
-		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-	}
 
 	
 }

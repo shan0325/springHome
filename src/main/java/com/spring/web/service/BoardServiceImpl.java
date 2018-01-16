@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import com.spring.web.SpringHomeApplication;
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
-import com.spring.web.dto.BoardDto.Delete;
 import com.spring.web.exception.BoardNotFoundException;
-import com.spring.web.exception.BoardPasswordNotMatchException;
 import com.spring.web.repository.BoardRepository;
 
 @Service("boardService")
@@ -117,16 +115,22 @@ public class BoardServiceImpl implements BoardService {
 	 * board 삭제
 	 */
 	@Override
-	public void deleteBoard(Long brdid, Delete deleteBoard) {
+	public void deleteBoard(Long brdid) {
+		
+		boardRepository.delete(brdid);
+	}
+
+	@Override
+	public boolean checkPassword(Long brdid, String pwd) {
 		
 		Board boardDetail = getBoardDetail(brdid);
 		
-		if(!deleteBoard.getPwd().equals(boardDetail.getPwd())) {
+		if(!pwd.equals(boardDetail.getPwd())) {
 			
-			throw new BoardPasswordNotMatchException(deleteBoard.getPwd());
+			return false;
 		}
 		
-		boardRepository.delete(brdid);
+		return true;
 	}
 
 }

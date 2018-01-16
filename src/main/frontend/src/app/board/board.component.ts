@@ -16,6 +16,8 @@ export class BoardComponent implements OnInit {
   board: Board[] = [];
   lastBrdid: number = 0;
   message: Board = new Board();
+  pwdBrdid: number;
+  flag: string;
 
   constructor(
     private boardService: BoardService,
@@ -39,6 +41,11 @@ export class BoardComponent implements OnInit {
     //message modal hide 시
     $('#writeModal').on('hide.bs.modal', function(e) {
       $("#messageForm")[0].reset();
+    });
+
+    //password modal hide 시
+    $('#pwdForm').on('hide.bs.modal', function(e) {
+      $("#pwdForm")[0].reset();
     });
   }
 
@@ -95,13 +102,29 @@ export class BoardComponent implements OnInit {
   }
 
   pwdOnSubmit(form: NgForm): void {
-    console.log('you submitted value:', form);
-    console.log(this.message);
+    //console.log('you submitted value:', form);
+    this.boardService.checkPassword(this.pwdBrdid, this.message)
+        .then(result => {
+          //비밀번호가 맞을 시
+          if(result) {
+            if(this.flag == "DELETE") {
+              this.boardService.deleteBoard(this.pwdBrdid)
+                  .then(() => {
+                    window.location.reload();
+                  });
+            } else if(this.flag == "UPDATE") {
 
-    this.boardService.checkPassword(this.message.pwd)
-        .then(() => {
-
+            }
+          } else {
+            alert("비밀번호가 맞지않습니다.");
+          }
         });
+  }
+
+  fn_deleteBtnClick(brdid: number): void {
+    this.pwdBrdid = brdid;
+    this.flag = "DELETE";
+    $('#pwdModal').modal();
   }
 
 

@@ -23,7 +23,7 @@
           <span>{{brd.regdt | date :'yyyy-MM-dd'}}</span>
           <span class="float-right">
             <button class="btn btn-default btn-small" (click)="fn_updateBtnClick()">수정</button>
-            <button class="btn btn-default btn-small" data-toggle="modal" data-target="#pwdModal">삭제</button>
+            <button class="btn btn-default btn-small" data-toggle="modal" (click)="fn_deleteBtnClick(brd.brdid)">삭제</button>
           </span>
         </div>
         <hr class="hr_line">
@@ -91,14 +91,13 @@
               <div class="modal-body">
                   <div class="form-group">
                     <label for="pwd" class="control-label">Password:</label>
-                    <input type="password" class="form-control" [(ngModel)]="message.pwd" name="pwd" id="pwd" 
+                    <input type="password" class="form-control" [(ngModel)]="message.pwd" name="pwd" id="checkPwd" 
                             placeholder="비밀번호" required #pwd="ngModel">
                     <div *ngIf="pwd.touched && !pwd.valid">
                       비밀번호를 입력해주세요.
                     </div>
                   </div>
               </div>
-  
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">delete</button>
@@ -106,8 +105,7 @@
             </div>
           </div>
         </div>
-        </form>
-
+      </form>
 
     </div>
   </div>
