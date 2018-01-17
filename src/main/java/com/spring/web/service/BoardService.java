@@ -7,8 +7,6 @@ import org.springframework.data.domain.Pageable;
 
 import com.spring.web.domain.Board;
 import com.spring.web.dto.BoardDto;
-import com.spring.web.dto.BoardDto.Delete;
-import com.spring.web.dto.BoardDto.Update;
 
 public interface BoardService {
 

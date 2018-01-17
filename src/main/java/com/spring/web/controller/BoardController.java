@@ -8,7 +8,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
+import org.hibernate.boot.jaxb.hbm.spi.ResultSetMappingBindingDefinition;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -163,13 +166,21 @@ public class BoardController {
 	 */
 	@PostMapping("/board/{brdid}/checkPwd")
 	public ResponseEntity checkPwd(@PathVariable Long brdid,
-									@RequestBody Map<String, Object> paramMap) {
+									@RequestBody @Valid BoardDto.CheckPassword checkPwd,
+									BindingResult result) {
 		
-		String pwd = (String) paramMap.get("pwd");
+		if(result.hasErrors()) {
+			ErrorResponse errorResponse = new ErrorResponse();
+			errorResponse.setMessage(ErrorResponse.MESSAGE_BAD_REQUEST);
+			errorResponse.setCode(ErrorResponse.CODE_BAD_REQUEST);
+			errorResponse.setErrors(result.getFieldErrors());
+			
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 		  
-		boolean result = boardService.checkPassword(brdid, pwd);
+		boolean resultVal = boardService.checkPassword(brdid, checkPwd.getPwd());
 		
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return new ResponseEntity<>(resultVal, HttpStatus.OK);
 	}
 	
 	

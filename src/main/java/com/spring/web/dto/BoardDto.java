@@ -73,7 +73,7 @@ public class BoardDto {
 	}
 	
 	@Data
-	public static class Delete {
+	public static class CheckPassword {
 		
 		@NotBlank(message="비밀번호를 입력해주세요.")
 		@Size(min = 4, message="4자이상으로 입력해주세요.")

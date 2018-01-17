@@ -54,6 +54,10 @@ export class BoardComponent implements OnInit {
     this.boardService.getBoard().then(board => this.board = board);
   }
 
+  getBoardOne(brdid: number): void {
+    this.boardService.getBoardOne(brdid).then(board => this.message = board);
+  }
+
   //더보기 버튼 클릭 시
   fn_moreClick(): void {
     this.board.forEach(element => {
@@ -113,10 +117,14 @@ export class BoardComponent implements OnInit {
                     window.location.reload();
                   });
             } else if(this.flag == "UPDATE") {
-
+              this.getBoardOne(this.pwdBrdid);
+              console.log(this.message);
+              $('#pwdModal').modal('hide');
+              $('#writeModal').modal();
             }
           } else {
             alert("비밀번호가 맞지않습니다.");
+            $('#checkPwd').focus();
           }
         });
   }
@@ -127,5 +135,11 @@ export class BoardComponent implements OnInit {
     $('#pwdModal').modal();
   }
 
+  fn_updateBtnClick(brdid: number): void {
+    this.pwdBrdid = brdid;
+    this.flag = "UPDATE";
+    $('#pwdModal').modal();
+  }
 
+  
 }

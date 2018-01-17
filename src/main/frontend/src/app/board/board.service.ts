@@ -26,6 +26,13 @@ export class BoardService {
                     .catch(this.handleError);
     }
 
+    getBoardOne(brdid: number): Promise<Board> {
+        return this.http.get('/board/' + brdid)
+                        .toPromise()
+                        .then(response => response.json() as Board)
+                        .catch();
+    }
+
     insert(board: Board): Promise<Board> {
         return this.http.post("/board", JSON.stringify(board), {headers: this.headers})
                         .toPromise()

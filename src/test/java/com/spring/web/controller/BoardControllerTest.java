@@ -119,12 +119,8 @@ public class BoardControllerTest {
 	
 	@Test
 	public void deleteBoard() throws Exception {
-		BoardDto.Delete deleteBoard = new BoardDto.Delete();
-		deleteBoard.setPwd("1234");
 		
-		ResultActions result = mockMvc.perform(delete("/board/114")
-										.contentType(MediaType.APPLICATION_JSON)
-										.content(objectMapper.writeValueAsString(deleteBoard)));
+		ResultActions result = mockMvc.perform(delete("/board/114"));
 		
 		result.andDo(print());
 		result.andExpect(status().isOk());
