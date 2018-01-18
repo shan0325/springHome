@@ -17,13 +17,14 @@
     <div class="col-lg-8 col-md-10 mx-auto">
       
       <div *ngFor="let brd of board; let last = last" class="post-preview">
-        <span [innerHtml]="brd.contents"></span>
+        <div [innerHtml]="brd.contents"></div>
         <div class="regnm">
           <span>{{brd.regnm}}</span>
           <span>{{brd.regdt | date :'yyyy-MM-dd'}}</span>
           <span class="float-right">
-            <button class="btn btn-default btn-small" data-toggle="modal" (click)="fn_updateBtnClick(brd.brdid)">수정</button>
-            <button class="btn btn-default btn-small" data-toggle="modal" (click)="fn_deleteBtnClick(brd.brdid)">삭제</button>
+            <button class="btn btn-primary btn-small" data-toggle="modal">댓글</button>
+            <button class="btn btn-primary btn-small" data-toggle="modal" (click)="fn_updateBtnClick(brd.brdid)">수정</button>
+            <button class="btn btn-primary btn-small" data-toggle="modal" (click)="fn_deleteBtnClick(brd.brdid)">삭제</button>
           </span>
         </div>
         <hr class="hr_line">
@@ -32,7 +33,7 @@
       <!-- Pager -->
       <div class="clearfix">
         <button class="btn btn-primary" (click)="fn_moreClick()">더보기 &rarr;</button>
-        <button class="btn btn-default float-right" data-toggle="modal" data-target="#writeModal">글쓰기</button>
+        <button class="btn btn-default float-right" data-toggle="modal" (click)="fn_insertBtnClick()">글쓰기</button>
       </div>
       
       <!-- Modal -->

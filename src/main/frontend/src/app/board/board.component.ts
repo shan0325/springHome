@@ -43,6 +43,10 @@ export class BoardComponent implements OnInit {
       $("#messageForm")[0].reset();
     });
 
+    $('#pwdForm').on('shown.bs.modal', function(e) {
+      $("#checkPwd").focus();
+    });
+
     //password modal hide 시
     $('#pwdForm').on('hide.bs.modal', function(e) {
       $("#pwdForm")[0].reset();
@@ -51,9 +55,15 @@ export class BoardComponent implements OnInit {
 
   //board 리스트 가져오기
   getBoard(): void {
-    this.boardService.getBoard().then(board => this.board = board);
+    this.boardService.getBoard().then(board => {
+      board.map(brd => {
+        brd.contents = brd.contents.replace(/\n/g, "<br/>");
+      });
+      this.board = board
+    });
   }
 
+  //board 한건 가져오기
   getBoardOne(brdid: number): void {
     this.boardService.getBoardOne(brdid).then(board => this.message = board);
   }
@@ -93,16 +103,21 @@ export class BoardComponent implements OnInit {
     }
 
     if(form.valid) {
-      this.boardService.insert(this.message)
-          .then(() => {
-            window.location.reload();
-            //this.goBack()
-          });
-    }
-  }
+      if(this.flag == "INSERT") {
+        this.boardService.insert(this.message)
+                          .then(() => {
+                            window.location.reload();
+                            //this.goBack()
+                          });
+      } else if(this.flag == "UPDATE") {
+        this.boardService.update(this.message)
+                          .then(() => {
+                            window.location.reload();
+                          });
 
-  goBack(): void {
-    this.location.back();
+      } 
+              
+    }
   }
 
   pwdOnSubmit(form: NgForm): void {
@@ -118,7 +133,7 @@ export class BoardComponent implements OnInit {
                   });
             } else if(this.flag == "UPDATE") {
               this.getBoardOne(this.pwdBrdid);
-              console.log(this.message);
+              this.message.brdid = this.pwdBrdid;
               $('#pwdModal').modal('hide');
               $('#writeModal').modal();
             }
@@ -127,6 +142,11 @@ export class BoardComponent implements OnInit {
             $('#checkPwd').focus();
           }
         });
+  }
+
+  fn_insertBtnClick(): void {
+    this.flag = "INSERT";
+    $("#writeModal").modal();
   }
 
   fn_deleteBtnClick(brdid: number): void {
@@ -141,5 +161,8 @@ export class BoardComponent implements OnInit {
     $('#pwdModal').modal();
   }
 
+  goBack(): void {
+    this.location.back();
+  }
   
 }

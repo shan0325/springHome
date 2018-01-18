@@ -12,15 +12,18 @@ export class BoardService {
     
     constructor(private http: Http) {}
 
+    listSize: number = 5;
+    moreListSize: number = 3;
+
     getBoard(): Promise<Board[]> {
-        return this.http.get('/board?size=2')
+        return this.http.get('/board?size=' + this.listSize)
                     .toPromise()
                     .then(response => response.json().content as Board[])
                     .catch(this.handleError);
     }
 
     getBoardMore(brdid: number): Promise<Board[]> {
-        return this.http.get('/board?size=2&lastBrdid=' + brdid)
+        return this.http.get('/board?size=' + this.moreListSize + '&lastBrdid=' + brdid)
                     .toPromise()
                     .then(response => response.json().content as Board[])
                     .catch(this.handleError);
@@ -51,6 +54,13 @@ export class BoardService {
         return this.http.delete("/board/" + brdid)
                     .toPromise()
                     .catch(this.handleError);
+    }
+
+    update(board: Board): Promise<Board> {
+        return this.http.put("/board/" + board.brdid, JSON.stringify(board), {headers: this.headers})
+                        .toPromise()
+                        .then(response => response.json().content as Board)
+                        .catch(this.handleError);
     }
 
     handleError(error: any): Promise<any> {
