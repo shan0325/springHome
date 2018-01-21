@@ -64,8 +64,8 @@ export class BoardComponent implements OnInit {
   }
 
   //board 한건 가져오기
-  getBoardOne(brdid: number): void {
-    this.boardService.getBoardOne(brdid).then(board => this.message = board);
+  getBoardOne(brdid: number): Promise<Board> {
+    return this.boardService.getBoardOne(brdid).then(board => this.message = board);
   }
 
   //더보기 버튼 클릭 시
@@ -133,7 +133,6 @@ export class BoardComponent implements OnInit {
                   });
             } else if(this.flag == "UPDATE") {
               this.getBoardOne(this.pwdBrdid);
-              this.message.brdid = this.pwdBrdid;
               $('#pwdModal').modal('hide');
               $('#writeModal').modal();
             }
@@ -159,6 +158,13 @@ export class BoardComponent implements OnInit {
     this.pwdBrdid = brdid;
     this.flag = "UPDATE";
     $('#pwdModal').modal();
+  }
+
+  fn_commentBtnClick(brdid: number): void {
+    this.getBoardOne(brdid).then(board => {
+      this.message.contents = board.contents.replace(/\n/g, '<br/>');
+    });
+    $('#commentModal').modal();
   }
 
   goBack(): void {
