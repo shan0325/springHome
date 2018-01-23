@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { FacebookModule } from 'ngx-facebook';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { LivereModule } from 'ngx-livere';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -28,7 +29,8 @@ import { BoardService } from './board/board.service';
     ReactiveFormsModule,
     FacebookModule.forRoot(),
     BootstrapModalModule,
-    BootstrapModalModule.forRoot({container:document.body})
+    BootstrapModalModule.forRoot({container:document.body}),
+    LivereModule.forRoot('MTAyMC8zMzM3My85OTI5')
   ],
   declarations: [
     AppComponent,
