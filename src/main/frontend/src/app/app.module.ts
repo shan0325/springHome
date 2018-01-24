@@ -17,6 +17,7 @@ import { BoardWriteComponent } from './board/board-write.component';
 import { AlbumComponent } from './album/album.component';
 
 import { BoardService } from './board/board.service';
+import { AlbumService } from './album/album.service';
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import { BoardService } from './board/board.service';
     FacebookModule.forRoot(),
     BootstrapModalModule,
     BootstrapModalModule.forRoot({container:document.body}),
-    LivereModule.forRoot('MTAyMC8zMzM3My85OTI5')
+    LivereModule.forRoot('livere id')
   ],
   declarations: [
     AppComponent,
@@ -41,7 +42,8 @@ import { BoardService } from './board/board.service';
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
-    BoardService
+    BoardService,
+    AlbumService
   ],
   bootstrap: [AppComponent]
 })

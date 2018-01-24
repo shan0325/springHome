@@ -25,7 +25,7 @@ body{
 	outline: none;
 }
 .gal-item a:after{
-	content:"\e003";
+	content:"Image";
 	font-family: 'Glyphicons Halflings';
 	opacity: 0;
 	background-color: rgba(0, 0, 0, 0.75);
@@ -45,13 +45,13 @@ body{
 .gal-item a:hover:after{
 	opacity: 1;
 }
-.modal-open .gal-container .modal{
+.gal-container .modal{
 	background-color: rgba(0,0,0,0.4);
 }
-.modal-open .gal-item .modal-body{
+.gal-item .modal-body{
 	padding: 0px;
 }
-.modal-open .gal-item button.close{
+.gal-item button.close{
     position: absolute;
     width: 25px;
     height: 25px;
@@ -68,10 +68,10 @@ body{
     -webkit-box-shadow: 0 0 1px 1px rgba(0,0,0,0.35);
 	box-shadow: 0 0 1px 1px rgba(0,0,0,0.35);
 }
-.modal-open .gal-item button.close:focus{
+.gal-item button.close:focus{
 	outline: none;
 }
-.modal-open .gal-item button.close span{
+.gal-item button.close span{
 	position: relative;
 	top: -3px;
 	font-weight: lighter;
@@ -107,7 +107,7 @@ body{
     transition: all 0.3s;
 }
 
-.gal-container .modal.fade.in .modal-dialog {
+.gal-container .modal.fade.show .modal-dialog {
     -webkit-transform: scale(1);
     -moz-transform: scale(1);
     -ms-transform: scale(1);
@@ -118,7 +118,7 @@ body{
 }
 @media (min-width: 768px) {
 .gal-container .modal-dialog {
-    width: 55%;
+    max-width: 55%;
     margin: 50 auto;
 }
 }

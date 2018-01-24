@@ -18,7 +18,6 @@ export class BoardComponent implements OnInit {
   message: Board = new Board();
   pwdBrdid: number;
   flag: string;
-  pageId = '/board';
 
   constructor(
     private boardService: BoardService,
