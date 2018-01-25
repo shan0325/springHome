@@ -79,6 +79,7 @@ public class BoardServiceImpl implements BoardService {
 		Board board = modelMapper.map(boardCreate, Board.class);
 		board.setSitemenuid(SpringHomeApplication.SITEMENUID);
 		board.setMenuid(BOARD_MENUID);
+		board.setTitle("board");
 		
 		String ip = request.getHeader("X-FORWARDED-FOR");
 		if(ip == null) {
@@ -90,6 +91,7 @@ public class BoardServiceImpl implements BoardService {
 		//저장
 		Board newBoard = boardRepository.save(board);
 		newBoard.setTopbrdid(newBoard.getBrdid());
+		newBoard.setTitle("board_" + newBoard.getBrdid());
 		
 		//업데이트
 		newBoard = boardRepository.save(newBoard);
