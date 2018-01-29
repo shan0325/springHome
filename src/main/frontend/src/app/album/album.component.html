@@ -11,8 +11,10 @@
   </div>
 </header>
 
+<!-- Main Content -->
+<div class="container">
+  <div class="row">
     <div class="container gal-container clearfix">
-      
       <div *ngFor="let alb of album; let last = last" class="col-md-8 col-sm-12 co-xs-12 gal-item">
         <div class="box">
           <a href="#" data-toggle="modal" data-target="#1">
@@ -30,10 +32,14 @@
           </div>
         </div>
       </div>
-
     </div>
 
+    <!-- Pager -->
+    <div class="btn_div clearfix">
+      <button class="btn btn-primary" (click)="fn_moreClick()">더보기 &rarr;</button>
+    </div>
 
-  
+  </div>
+</div>
 
 <hr class="hr_line">

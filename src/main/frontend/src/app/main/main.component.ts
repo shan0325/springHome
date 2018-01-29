@@ -1,11 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageScrollConfig, PageScrollService, PageScrollInstance, EasingLogic } from 'ng2-page-scroll';
 
 @Component({
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
+
+  month: number = 0;
+
+  ngOnInit() {
+    var bornDay = new Date(2016, 6, 21);
+    var gapTime = new Date().getTime() - bornDay.getTime();
+    var curDay = 24 * 60 * 60 * 1000; //시 * 분 * 초 * 밀리세컨
+    var curMonth = curDay * 30;
+    var curYear = curMonth * 12;
+    
+    this.month = Math.floor(gapTime / curMonth);
+  }
 
   myEasing: EasingLogic = {
     ease: (t: number, b: number, c: number, d: number): number => {
