@@ -15,15 +15,15 @@ export class BoardService {
     listSize: number = 5;
     moreListSize: number = 3;
 
-    getBoard(): Promise<Board[]> {
-        return this.http.get('/board?size=' + this.listSize)
+    getBoard(categorycd: number): Promise<Board[]> {
+        return this.http.get('/board?categorycd=' + categorycd + '&size=' + this.listSize)
                     .toPromise()
                     .then(response => response.json().content as Board[])
                     .catch(this.handleError);
     }
 
-    getBoardMore(brdid: number): Promise<Board[]> {
-        return this.http.get('/board?size=' + this.moreListSize + '&lastBrdid=' + brdid)
+    getBoardMore(brdid: number, categorycd: number): Promise<Board[]> {
+        return this.http.get('/board?size=' + this.moreListSize + '&lastBrdid=' + brdid + "&categorycd=" + categorycd)
                     .toPromise()
                     .then(response => response.json().content as Board[])
                     .catch(this.handleError);

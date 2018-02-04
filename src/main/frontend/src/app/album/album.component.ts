@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AlbumService } from './album.service';
 import { Album } from './album';
+import { Category } from '../category/category';
 
 declare var $: any; //jquery 사용
 
@@ -12,7 +13,9 @@ declare var $: any; //jquery 사용
 export class AlbumComponent implements OnInit {
 
   album: Album[] = [];
+  categorys: Category[] = [];
   lastBrdid: number = 0;
+  categorycd: number = 0;
 
   constructor(private albumService: AlbumService) { }
 
@@ -22,13 +25,20 @@ export class AlbumComponent implements OnInit {
     window.scrollTo(0,0);
 
     this.getAlbum();
+    this.getCategorys();
   }
 
   //앨범 리스트 가져오기
   getAlbum(): void {
-    this.albumService.getAlbum().then(album => {
+    this.albumService.getAlbum(this.categorycd).then(album => {
       this.album = album;
-    })
+    });
+  }
+
+  getCategorys(): void {
+    this.albumService.getCategorys().then(categorys => {
+      this.categorys = categorys;
+    });
   }
 
   //더보기 버튼 클릭 시
@@ -37,7 +47,7 @@ export class AlbumComponent implements OnInit {
       this.lastBrdid = element.brdid;
     });
     
-    this.albumService.getAlbumMore(this.lastBrdid).then(album => {
+    this.albumService.getAlbumMore(this.lastBrdid, this.categorycd).then(album => {
       if(album.length == 0) {
         alert("내용이 없습니다.");
         return;
@@ -47,6 +57,22 @@ export class AlbumComponent implements OnInit {
         this.album.push(element);
       });
     });
+  }
+
+  fn_showImage(brdid): void {
+    $("#" + brdid).modal();
+  }
+
+  fn_getCategoryAlbumList(categorycd): void {
+    this.categorycd = categorycd;
+    this.getAlbum();
+    $(".nav li.active").removeClass("active");
+
+    if(categorycd == 0) {
+      $(".nav #cateAll").closest("li").addClass("active");
+    } else {
+      $(".nav #cate" + categorycd).closest("li").addClass("active");
+    }
   }
 
 

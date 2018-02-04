@@ -14,7 +14,7 @@ public interface BoardRepositoryCustom {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable);
+	Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable, Integer categorycd);
 	
 	/**
 	 * 더보기 게시판 리스트 가져오기
@@ -24,7 +24,7 @@ public interface BoardRepositoryCustom {
 	 * @param lastBrdid
 	 * @return
 	 */
-	Page<Board> getBoardListMore(Integer menuid, Integer depth, Pageable pageable, Integer lastBrdid);
+	Page<Board> getBoardListMore(Integer menuid, Integer depth, Pageable pageable, Integer lastBrdid, Integer categorycd);
 
 	/**
 	 * 게시판 상세정보 가져오기

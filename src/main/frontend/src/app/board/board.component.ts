@@ -15,6 +15,7 @@ export class BoardComponent implements OnInit {
 
   board: Board[] = [];
   lastBrdid: number = 0;
+  categorycd: number = 0;
   message: Board = new Board();
   pwdBrdid: number;
   flag: string;
@@ -55,7 +56,7 @@ export class BoardComponent implements OnInit {
 
   //board 리스트 가져오기
   getBoard(): void {
-    this.boardService.getBoard().then(board => {
+    this.boardService.getBoard(this.categorycd).then(board => {
       board.map(brd => {
         brd.contents = brd.contents.replace(/\n/g, "<br/>");
       });
@@ -74,7 +75,7 @@ export class BoardComponent implements OnInit {
       this.lastBrdid = element.brdid;
     });
     
-    this.boardService.getBoardMore(this.lastBrdid).then(board => {
+    this.boardService.getBoardMore(this.lastBrdid, this.categorycd).then(board => {
       if(board.length == 0) {
         alert("내용이 없습니다.");
         return;

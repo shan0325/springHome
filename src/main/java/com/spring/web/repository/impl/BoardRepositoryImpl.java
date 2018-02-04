@@ -26,30 +26,59 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 	private JPAQueryFactory queryFactory;
 
 	@Override
-	public Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable) {
+	public Page<Board> getBoardList(Integer menuid, Integer depth, Pageable pageable, Integer categorycd) {
 
 		QBoard board = QBoard.board;
 		
-		QueryResults<Board> result = queryFactory.selectFrom(board)
-												.where(board.menuid.eq(menuid), board.depth.eq(depth))
-												.orderBy(board.regdt.desc())
-												.limit(pageable.getPageSize())
-												.offset(pageable.getOffset())
-												.fetchResults();
+		QueryResults<Board> result = null;
+		
+		if(categorycd > 0) {
+			result = queryFactory.selectFrom(board)
+									.where(board.menuid.eq(menuid), 
+											board.depth.eq(depth),
+											board.categorycd.eq(categorycd))
+									.orderBy(board.regdt.desc())
+									.limit(pageable.getPageSize())
+									.offset(pageable.getOffset())
+									.fetchResults();
+		} else {
+			result = queryFactory.selectFrom(board)
+									.where(board.menuid.eq(menuid), 
+											board.depth.eq(depth))
+									.orderBy(board.regdt.desc())
+									.limit(pageable.getPageSize())
+									.offset(pageable.getOffset())
+									.fetchResults();
+		}
 		
 		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
 	}
 	
 	@Override
-	public Page<Board> getBoardListMore(Integer menuid, Integer depth, Pageable pageable, Integer lastBrdid) {
+	public Page<Board> getBoardListMore(Integer menuid, Integer depth, Pageable pageable, Integer lastBrdid, Integer categorycd) {
 
 		QBoard board = QBoard.board;
 		
-		QueryResults<Board> result = queryFactory.selectFrom(board)
-												.where(board.menuid.eq(menuid), board.depth.eq(depth), board.brdid.lt(lastBrdid))
-												.orderBy(board.regdt.desc())
-												.limit(pageable.getPageSize())
-												.fetchResults();
+		QueryResults<Board> result = null;
+		
+		if(categorycd > 0) {
+			result = queryFactory.selectFrom(board)
+									.where(board.menuid.eq(menuid), 
+											board.depth.eq(depth), 
+											board.brdid.lt(lastBrdid),
+											board.categorycd.eq(categorycd))
+									.orderBy(board.regdt.desc())
+									.limit(pageable.getPageSize())
+									.fetchResults();
+		} else {
+			result = queryFactory.selectFrom(board)
+									.where(board.menuid.eq(menuid), 
+											board.depth.eq(depth), 
+											board.brdid.lt(lastBrdid))
+									.orderBy(board.regdt.desc())
+									.limit(pageable.getPageSize())
+									.fetchResults();
+		}
 		
 		return new PageImpl<>(result.getResults(), pageable, result.getTotal());
 	}

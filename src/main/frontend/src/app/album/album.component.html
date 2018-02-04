@@ -14,18 +14,26 @@
 <!-- Main Content -->
 <div class="container">
   <div class="row">
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active" id="cateAll"><a (click)="fn_getCategoryAlbumList(0)">전체</a></li>
+      <li *ngFor="let category of categorys;">
+        <a id="cate{{category.categorycd}}" (click)="fn_getCategoryAlbumList(category.categorycd)">{{category.categorynm}}</a>
+      </li>
+    </ul>
     <div class="container gal-container clearfix">
-      <div *ngFor="let alb of album; let last = last" class="col-md-8 col-sm-12 co-xs-12 gal-item">
-        <div class="box">
-          <a href="#" data-toggle="modal" data-target="#1">
-            <img src="{{alb.files[1].savepath}}">
-          </a>
-          <div class="modal fade" id="1" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <div class="modal-body">
-                  <img src="{{alb.files[1].savepath}}">
+      <div *ngFor="let alb of album; let i = index let last = last">
+        <div [ngClass]="alb.title.indexOf('wide') > -1 ? 'col-md-8 col-sm-12 co-xs-12 gal-item' : 'col-md-4 col-sm-6 co-xs-12 gal-item'">
+          <div class="box">
+            <a href="#" data-toggle="modal" data-target="#{{i}}" (click)="fn_showImage(alb.brdid)">
+              <img src="{{alb.files[1].savepath}}">{{alb.title}}
+            </a>
+            <div class="modal fade" id="{{alb.brdid}}" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <div class="modal-body">
+                    <img src="{{alb.files[1].savepath}}">
+                  </div>
                 </div>
               </div>
             </div>

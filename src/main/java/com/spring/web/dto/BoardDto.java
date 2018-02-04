@@ -80,4 +80,5 @@ public class BoardDto {
 		private String pwd;
 	}
 	
+	
 }

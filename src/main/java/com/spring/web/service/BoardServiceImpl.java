@@ -33,14 +33,14 @@ public class BoardServiceImpl implements BoardService {
 	 * board 리스트 가져오기
 	 */
 	@Override
-	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid) {
+	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid, Integer categorycd) {
 		
 		//return boardRepository.findByMenuidAndDepth(BOARD_MENUID, 1, pageable);
 
 		if(lastBrdid != null && lastBrdid > 0) {
-			return boardRepository.getBoardListMore(BOARD_MENUID, 1, pageable, lastBrdid);
+			return boardRepository.getBoardListMore(BOARD_MENUID, 1, pageable, lastBrdid, categorycd);
 		} else {
-			return boardRepository.getBoardList(BOARD_MENUID, 1, pageable);
+			return boardRepository.getBoardList(BOARD_MENUID, 1, pageable, categorycd);
 		}
 	}
 

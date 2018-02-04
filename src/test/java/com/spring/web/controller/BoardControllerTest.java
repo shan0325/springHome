@@ -92,7 +92,7 @@ public class BoardControllerTest {
 		updateBoard.setPwd("1234");
 		updateBoard.setContents("헬로 홍길동");
 		
-		ResultActions result = mockMvc.perform(put("/board/114")
+		ResultActions result = mockMvc.perform(put("/board/121")
 										.contentType(MediaType.APPLICATION_JSON)
 										.content(objectMapper.writeValueAsString(updateBoard)));
 		
@@ -120,7 +120,7 @@ public class BoardControllerTest {
 	@Test
 	public void deleteBoard() throws Exception {
 		
-		ResultActions result = mockMvc.perform(delete("/board/114"));
+		ResultActions result = mockMvc.perform(delete("/board/121"));
 		
 		result.andDo(print());
 		result.andExpect(status().isOk());

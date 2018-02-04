@@ -62,9 +62,10 @@ public class BoardController {
 	 */
 	@GetMapping("/board")
 	public Page<BoardDto.Board> getBoardList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=10) Pageable pageable,
-												@RequestParam(required=false) Integer lastBrdid) {
+												@RequestParam(required=false) Integer lastBrdid,
+												@RequestParam(required=false) Integer categorycd) {
 		
-		Page<Board> page = boardService.getBoardList(BOARD_MENUID, pageable, lastBrdid);
+		Page<Board> page = boardService.getBoardList(BOARD_MENUID, pageable, lastBrdid, categorycd);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
@@ -192,9 +193,10 @@ public class BoardController {
 	 */
 	@GetMapping("/album")
 	public Page<BoardDto.Board> getAlbumList(@PageableDefault(sort={"regdt"}, direction=Direction.DESC, size=10) Pageable pageable,
-												@RequestParam(required=false) Integer lastBrdid) {
+												@RequestParam(required=false) Integer lastBrdid,
+												@RequestParam(required=false) Integer categorycd) {
 		
-		Page<Board> page = boardService.getBoardList(ALBUM_MENUID, pageable, lastBrdid);
+		Page<Board> page = boardService.getBoardList(ALBUM_MENUID, pageable, lastBrdid, categorycd);
 		
 		//modelMapper를 사용하여 응답해줄 파라미터 지정
 		List<BoardDto.Board> collect = page.getContent()
@@ -231,6 +233,5 @@ public class BoardController {
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
 	
-
 	
 }

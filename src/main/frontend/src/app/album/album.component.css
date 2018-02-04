@@ -116,17 +116,7 @@ body{
     transform: translate3d(0, -100px, 0);
     opacity: 1;
 }
-@media (min-width: 768px) {
-.gal-container .modal-dialog {
-    max-width: 55%;
-    margin: 50 auto;
-}
-}
-@media (max-width: 768px) {
-    .gal-container .modal-content{
-        height:250px;
-    }
-}
+
 
 .btn_div {
     padding-left: 15px;
@@ -168,3 +158,84 @@ body{
       color: #fff;
       background-color: #00657b !important;
       border-color: #00657b !important; }   
+
+.nav {
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+.nav-tabs.nav-justified {
+        width: 100%;
+        border-bottom: 0;
+    }  
+.nav-tabs.nav-justified>li {
+        float: none;
+    }
+
+.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+        border: 1px solid #ddd;
+    }
+.nav-tabs.nav-justified>li>a {
+        margin-bottom: 5px;
+        text-align: center;
+    }    
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+.nav>li>a {
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
+    
+
+    @media (min-width: 768px) {
+        .gal-container .modal-dialog {
+            max-width: 55%;
+            margin: 50 auto;
+        }
+        .nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+            border-bottom-color: #fff;
+            cursor: pointer;
+            color: #F05F40;
+            font-weight: bold;
+        }
+        .nav-tabs.nav-justified>li {
+            display: table-cell;
+            width: 25%;
+        }
+        .nav-tabs.nav-justified>li>a {
+            border-bottom: 1px solid #ddd;
+            border-radius: 4px 4px 0 0;
+        }
+        .nav-tabs.nav-justified>li>a {
+            margin-bottom: 0;
+        }
+    }
+    @media (max-width: 768px) {
+        .gal-container .modal-content{
+            height:250px;
+        }
+        .nav-tabs.nav-justified>li {
+            display: table-cell;
+            width: 25%;
+        }
+        .nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
+            border-bottom-color: #fff;
+            cursor: pointer;
+            color: #F05F40;
+            font-weight: bold;
+        }
+        .nav-tabs.nav-justified>li>a {
+            border-bottom: 1px solid #ddd;
+            border-radius: 4px 4px 0 0;
+        }
+        .nav-tabs.nav-justified>li>a {
+            margin-bottom: 0;
+        }
+    }    

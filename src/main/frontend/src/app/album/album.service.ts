@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
 import { Album } from './album';
+import { Category } from '../category/category';
 
 @Injectable()
 export class AlbumService {
@@ -13,16 +14,30 @@ export class AlbumService {
     listSize: number = 5;
     moreListSize: number = 3;
 
-    getAlbum(): Promise<Album[]> {
-        return this.http.get('/album?size=' + this.listSize)
+    getAlbum(categorycd: number): Promise<Album[]> {
+        return this.http.get('/album?categorycd=' + categorycd + '&size=' + this.listSize)
                         .toPromise()
                         .then(response => response.json().content as Album[])
                         .catch(this.handleError);
 
     }
 
-    getAlbumMore(brdid: number): Promise<Album[]> {
-        return this.http.get('/album?size=' + this.moreListSize + '&lastBrdid=' + brdid)
+    getAlbumMore(brdid: number, categorycd: number): Promise<Album[]> {
+        return this.http.get('/album?size=' + this.moreListSize + '&lastBrdid=' + brdid + "&categorycd=" + categorycd)
+                        .toPromise()
+                        .then(response => response.json().content as Album[])
+                        .catch(this.handleError);
+    }
+
+    getCategorys(): Promise<Category[]> {
+        return this.http.get('/categorys/5')
+                        .toPromise()
+                        .then(response => response.json() as Category[])
+                        .catch(this.handleError)
+    }
+
+    getCategoryAlbum(categorycd): Promise<Category[]> {
+        return this.http.get('/album?categorycd=' + categorycd + '&size=' + this.listSize)
                         .toPromise()
                         .then(response => response.json().content as Album[])
                         .catch(this.handleError);

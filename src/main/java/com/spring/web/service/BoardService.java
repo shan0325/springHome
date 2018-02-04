@@ -11,7 +11,7 @@ import com.spring.web.dto.BoardDto;
 public interface BoardService {
 
 
-	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid);
+	public Page<Board> getBoardList(Integer BOARD_MENUID, Pageable pageable, Integer lastBrdid, Integer categorycd);
 
 	public Board getBoard(Long brdid);
 
