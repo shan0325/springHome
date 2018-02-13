@@ -14,6 +14,7 @@ export class AlbumComponent implements OnInit {
 
   album: Album[] = [];
   categorys: Category[] = [];
+  categoryWidthPercent: string = "0%";
   lastBrdid: number = 0;
   categorycd: number = 0;
 
@@ -38,6 +39,7 @@ export class AlbumComponent implements OnInit {
   getCategorys(): void {
     this.albumService.getCategorys().then(categorys => {
       this.categorys = categorys;
+      this.categoryWidthPercent = (100 / (categorys.length + 1)) + "%";
     });
   }
 

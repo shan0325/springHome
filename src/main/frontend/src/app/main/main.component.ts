@@ -10,13 +10,15 @@ export class MainComponent implements OnInit {
   month: number = 0;
 
   ngOnInit() {
-    var bornDay = new Date(2016, 6, 21);
-    var gapTime = new Date().getTime() - bornDay.getTime();
-    var curDay = 24 * 60 * 60 * 1000; //시 * 분 * 초 * 밀리세컨
-    var curMonth = curDay * 30;
-    var curYear = curMonth * 12;
-    
-    this.month = Math.floor(gapTime / curMonth);
+    var bornDay = new Date(2016, 5, 21); //2016.06.21(태어난 일시)
+    var today = new Date();
+
+    var years = today.getFullYear() - bornDay.getFullYear();
+    var months = today.getMonth() - bornDay.getMonth();
+    var days = today.getDate() - bornDay.getDate();
+    //console.log("years = " + years + " // months = " + months + " // days = " + days);
+
+    this.month = years * 12 + months + (days >= 0 ? 0 : -1);
   }
 
   myEasing: EasingLogic = {

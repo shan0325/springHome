@@ -163,6 +163,7 @@ body{
         padding-left: 0;
         margin-bottom: 0;
         list-style: none;
+        display: block;
     }
 .nav-tabs.nav-justified {
         width: 100%;
@@ -192,6 +193,9 @@ body{
         padding: 10px 15px;
         cursor: pointer;
     }
+.gal-container .modal-content {
+    display: block;
+}    
     
 
     @media (min-width: 768px) {
@@ -207,7 +211,7 @@ body{
         }
         .nav-tabs.nav-justified>li {
             display: table-cell;
-            width: 25%;
+            width: 1%;
         }
         .nav-tabs.nav-justified>li>a {
             border-bottom: 1px solid #ddd;
@@ -223,7 +227,7 @@ body{
         }
         .nav-tabs.nav-justified>li {
             display: table-cell;
-            width: 25%;
+            width: 1%;
         }
         .nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
             border-bottom-color: #fff;

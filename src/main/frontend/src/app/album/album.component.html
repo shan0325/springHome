@@ -21,25 +21,59 @@
       </li>
     </ul>
     <div class="container gal-container clearfix">
+
       <div *ngFor="let alb of album; let i = index let last = last">
-        <div [ngClass]="alb.title.indexOf('wide') > -1 ? 'col-md-8 col-sm-12 co-xs-12 gal-item' : 'col-md-4 col-sm-6 co-xs-12 gal-item'">
-          <div class="box">
-            <a href="#" data-toggle="modal" data-target="#{{i}}" (click)="fn_showImage(alb.brdid)">
-              <img src="{{alb.files[1].savepath}}">{{alb.title}}
-            </a>
-            <div class="modal fade" id="{{alb.brdid}}" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                  <div class="modal-body">
-                    <img src="{{alb.files[1].savepath}}">
+        <div *ngIf="alb.files.length == 2; then singleTemplate"></div>
+        <div *ngIf="alb.files.length > 2; then listTemplate"></div>
+
+        <ng-template #singleTemplate>
+          <div [ngClass]="alb.title.indexOf('wide') > -1 ? 'col-md-8 col-sm-12 co-xs-12 gal-item' : 'col-md-4 col-sm-6 co-xs-12 gal-item'">
+            <div class="box">
+              <a href="#" data-toggle="modal" (click)="fn_showImage(alb.files[0].fileid)">
+                <img src="{{alb.files[0].savepath}}" alt="{{alb.title}}">
+              </a>
+              <div class="modal fade" id="{{alb.files[0].fileid}}" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-body">
+                      <img src="{{alb.files[1].savepath}}" alt="{{alb.title}}">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </ng-template>
+
+        <ng-template #listTemplate>
+          <div *ngFor="let file of alb.files;">
+            <div *ngIf="file.filegubun == 'bbsFile'; then fileTemplate"></div>
+
+            <ng-template #fileTemplate>
+              <div [ngClass]="alb.title.indexOf('wide') > -1 ? 'col-md-8 col-sm-12 co-xs-12 gal-item' : 'col-md-4 col-sm-6 co-xs-12 gal-item'">
+                <div class="box">
+                  <a href="#" data-toggle="modal" (click)="fn_showImage(file.fileid)">
+                    <img src="{{file.savepath}}" alt="{{alb.title}}">
+                  </a>
+                  <div class="modal fade" id="{{file.fileid}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <div class="modal-body">
+                          <img src="{{file.savepath}}" alt="{{alb.title}}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </ng-template>
+
       </div>
+
     </div>
 
     <!-- Pager -->

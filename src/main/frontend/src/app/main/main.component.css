@@ -3,3 +3,9 @@
     margin-top: 0px !important;
     padding-top:9%;
 }
+
+@media (min-width: 768px) {
+    .my-auto {
+        padding-top:70px;
+    }
+}
